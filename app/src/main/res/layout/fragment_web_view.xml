@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".WebViewFragment">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_above="@+id/bottom_banner_ad"
+            android:id="@+id/swiperefreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <WebView
+                android:layout_below="@+id/progress"
+                android:id="@+id/webview"
+                android:layout_alignParentStart="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:layout_alignParentTop="true"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:max="100"
+            android:progress="0" />
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_above="@+id/bottom_banner_ad"
+            android:id="@+id/savePdfBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="15dp"
+            app:contentPadding="10dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_pdf" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.gms.ads.AdView
+            android:visibility="visible"
+            android:id="@+id/bottom_banner_ad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id">
+        </com.google.android.gms.ads.AdView>
+
+    </RelativeLayout>
+</layout>

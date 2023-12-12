@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pageMargin">30dp</dimen>
+    <dimen name="offset">30dp</dimen>
+    <dimen name="pageMarginAndOffset">50dp</dimen>
+
+    <dimen name="next_item_visible_width">30dp</dimen>
+    <dimen name="viewpager_horizontal_margin">30dp</dimen>
+</resources>

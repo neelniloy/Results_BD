@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_exit_linear"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/Theme.MaterialComponents"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_margin="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.gms.ads.AdView
+            android:layout_gravity="center"
+            android:id="@+id/exit_banner_ad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id">
+        </com.google.android.gms.ads.AdView>
+
+        <!-- exit the app textview -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Are you sure want to exit the app?"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!-- No Text View -->
+            <com.google.android.material.button.MaterialButton
+                app:cornerRadius="8dp"
+                android:id="@+id/textViewNo"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="#28A62D"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:text="NO"
+                android:textColor="@color/white" />
+
+            <!-- Yes Text View -->
+            <com.google.android.material.button.MaterialButton
+                app:cornerRadius="8dp"
+                android:id="@+id/textViewYes"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/red"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:text="Exit"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

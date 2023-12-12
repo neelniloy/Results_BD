@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "950846117209",
+    "project_id": "resultsbd-8af84",
+    "storage_bucket": "resultsbd-8af84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950846117209:android:3dec051839220b7a9d6848",
+        "android_client_info": {
+          "package_name": "com.braineer.nuresult"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950846117209-pc28ekq578i87rdl5gtjknto8ii0f071.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAse4RTVo5ztZAtPtPyqhTPyGgxAKHNkps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950846117209-pc28ekq578i87rdl5gtjknto8ii0f071.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
