@@ -17,7 +17,7 @@
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bottom_banner_ad"
+            android:layout_above="@+id/banner_ad"
             android:orientation="vertical">
 
             <TextView
@@ -38,14 +38,12 @@
         </LinearLayout>
 
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/bottom_banner_ad"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/banner_ad"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id" />
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 

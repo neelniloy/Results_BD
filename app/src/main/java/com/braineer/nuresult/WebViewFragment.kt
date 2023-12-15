@@ -16,6 +16,7 @@ import android.os.Looper
 import android.print.PrintAttributes
 import android.print.PrintJob
 import android.print.PrintManager
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.braineer.nuresult.databinding.FragmentWebViewBinding
+import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -45,7 +49,6 @@ class WebViewFragment : Fragment() {
     private var printJob: PrintJob? = null
     private var printBtnPressed = false
     private var dialog:AlertDialog? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +68,6 @@ class WebViewFragment : Fragment() {
         binding.webview.settings.builtInZoomControls = true
 
         binding.webview.settings.setGeolocationEnabled(true)
-
 
         //setting swiperefreshlistener
         binding.swiperefreshlayout.setOnRefreshListener{
@@ -91,9 +93,9 @@ class WebViewFragment : Fragment() {
 
         binding.webview.webViewClient = object : WebViewClient() {
 
-            @Deprecated("Deprecated in Java")
+/*            @Deprecated("Deprecated in Java")
             override fun shouldOverrideUrlLoading(webView: WebView?, url: String): Boolean {
-                return if (url.contains(arguments?.getString("url").toString())) {
+                return if (url.contains(arguments?.getString("url").toString())*//* || arguments?.getString("type").toString()=="NU"*//*) {
                     false
                 } else {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
@@ -101,7 +103,7 @@ class WebViewFragment : Fragment() {
                     findNavController().popBackStack()
                     true
                 }
-            }
+            }*/
             @SuppressLint("WebViewClientOnReceivedSslError")
             override fun onReceivedSslError(
                 view: WebView,
@@ -203,7 +205,7 @@ class WebViewFragment : Fragment() {
             } else {
                 // Showing Toast message to user
                 Snackbar.make(
-                    requireActivity().findViewById<View>(R.id.content),
+                    requireActivity().findViewById(R.id.content),
                     "WebPage not fully loaded",
                     Snackbar.LENGTH_SHORT
                 ).show()
@@ -223,12 +225,6 @@ class WebViewFragment : Fragment() {
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
-
-        //ad
-        MobileAds.initialize(requireActivity()) {}
-        val adRequest = AdRequest.Builder().build()
-        binding.bottomBannerAd.loadAd(adRequest)
 
 
         return binding.root
@@ -294,12 +290,10 @@ class WebViewFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-
+    override fun onDestroyView() {
+        super.onDestroyView()
         if (dialog!=null){
             dialog!!.dismiss()
         }
-        super.onDestroy()
     }
-
 }

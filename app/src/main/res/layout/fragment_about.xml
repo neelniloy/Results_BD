@@ -1,120 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ads="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
     </data>
 
-    <LinearLayout
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+    <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".AboutFragment">
 
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/banner_ad"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:paddingBottom="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            app:contentPadding="4dp"
-            android:clickable="false"
-            android:focusable="true"
-            app:cardElevation="6dp"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="?attr/colorSurface"
-            android:foreground="?selectableItemBackground">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:padding="10dp"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/logo" />
+                android:layout_margin="6dp"
+                app:contentPadding="4dp"
+                android:clickable="false"
+                android:focusable="true"
+                app:cardElevation="6dp"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                android:foreground="?selectableItemBackground">
 
                 <LinearLayout
-                    android:layout_marginStart="10dp"
                     android:padding="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="28dp"
-                        android:textStyle="bold"
-                        android:textColor="?android:textColorPrimary"
-                        android:text="Results BD" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16dp"
-                        android:textColor="?android:textColorPrimary"
-                        android:text="5.5.9" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            app:contentPadding="4dp"
-            android:clickable="false"
-            android:focusable="true"
-            app:cardElevation="6dp"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="?attr/colorSurface"
-            android:foreground="?selectableItemBackground">
-
-            <LinearLayout
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="left"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:textColor="?attr/colorPrimary"
-                    android:text="Maintainer" />
-
-                <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/logo"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/me" />
+                        android:src="@drawable/logo" />
 
                     <LinearLayout
-                        android:layout_marginStart="5dp"
+                        android:layout_marginStart="10dp"
+                        android:padding="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -122,116 +59,229 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18dp"
+                            android:textSize="28dp"
+                            android:textStyle="bold"
                             android:textColor="?android:textColorPrimary"
-                            android:text="Niloy Kumar Sarker" />
+                            android:text="Results BD" />
 
                         <TextView
-                            android:layout_marginTop="2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="14dp"
+                            android:textSize="16dp"
                             android:textColor="?android:textColorPrimary"
-                            android:text="Software Engineer - Android" />
+                            android:text="5.6.0" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                app:contentPadding="4dp"
+                android:clickable="false"
+                android:focusable="true"
+                app:cardElevation="6dp"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                android:foreground="?selectableItemBackground">
+
+                <LinearLayout
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary"
+                        android:text="Maintainer" />
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/me" />
+
+                        <LinearLayout
+                            android:layout_marginStart="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="18dp"
+                                android:textColor="?android:textColorPrimary"
+                                android:text="Niloy Kumar Sarker" />
+
+                            <TextView
+                                android:layout_marginTop="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14dp"
+                                android:textColor="?android:textColorPrimary"
+                                android:text="Software Engineer - Android" />
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 
 
                 </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            app:contentPadding="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardElevation="6dp"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="?attr/colorSurface"
-            android:foreground="?selectableItemBackground">
-
-            <LinearLayout
-                android:padding="10dp"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="left"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:textColor="?attr/colorPrimary"
-                    android:text="Find Me On" />
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                app:contentPadding="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardElevation="6dp"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                android:foreground="?selectableItemBackground">
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/facebook"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/facebook" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary"
+                        android:text="Find Me On" />
 
-                    <ImageView
-                        android:id="@+id/telegram"
-                        android:layout_marginStart="18dp"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/telegram" />
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/github"
-                        android:layout_marginStart="18dp"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/github" />
+                        <ImageView
+                            android:id="@+id/facebook"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/facebook" />
 
-                    <ImageView
-                        android:id="@+id/linkedin"
-                        android:layout_marginStart="18dp"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/linkedin" />
+                        <ImageView
+                            android:id="@+id/telegram"
+                            android:layout_marginStart="18dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/telegram" />
 
-                    <ImageView
-                        android:id="@+id/youtube"
-                        android:layout_marginStart="18dp"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/youtube" />
+                        <ImageView
+                            android:id="@+id/github"
+                            android:layout_marginStart="18dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/github" />
+
+                        <ImageView
+                            android:id="@+id/linkedin"
+                            android:layout_marginStart="18dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/linkedin" />
+
+                        <ImageView
+                            android:id="@+id/youtube"
+                            android:layout_marginStart="18dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/youtube" />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="10dp"
+                app:contentPadding="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="@color/red">
 
-        </com.google.android.material.card.MaterialCardView>
+                <LinearLayout
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-        <com.google.android.gms.ads.AdView
-            android:visibility="visible"
-            android:id="@+id/bottom_banner_ad"
-            android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textStyle="normal"
+                        android:textColor="#FFC107"
+                        android:text="Give Us 5 Star Rating" />
+
+                    <ImageView
+                        android:layout_marginStart="10dp"
+                        android:layout_width="28dp"
+                        android:layout_height="24dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/rating" />
+
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/banner_ad"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id">
-        </com.google.android.gms.ads.AdView>
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 </layout>
