@@ -39,13 +39,13 @@ class AboutFragment : Fragment() {
 
         binding.facebook.setOnClickListener {
             val defaultBrowser = Intent(Intent.ACTION_VIEW)
-            defaultBrowser.data = Uri.parse("https://www.facebook.com/neel.niloya/")
+            defaultBrowser.data = Uri.parse("https://www.facebook.com/niloythings/")
             startActivity(defaultBrowser)
         }
 
         binding.telegram.setOnClickListener {
             val defaultBrowser = Intent(Intent.ACTION_VIEW)
-            defaultBrowser.data = Uri.parse("https://t.me/neelniloy")
+            defaultBrowser.data = Uri.parse("https://t.me/niloythings")
             startActivity(defaultBrowser)
         }
 
