@@ -1,8 +1,9 @@
 package com.braineer.nuresult.model
 
 data class UrlModel(
-    var psc:String? = null,
-    var ssc:String? = null,
-    var nu:String? = null,
-    var open:String? = null,
+    var psc: String? = "http://www.educationboardresults.gov.bd/",
+    var ssc: String? = "http://www.educationboardresults.gov.bd/",
+    var nu: String? = "http://results.nu.ac.bd/",
+    var open: String? = "https://www.bou.ac.bd/result"
 )
+

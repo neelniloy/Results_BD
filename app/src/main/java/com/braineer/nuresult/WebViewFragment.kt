@@ -1,9 +1,6 @@
 package com.braineer.nuresult
 
-import android.R
 import android.annotation.SuppressLint
-import android.app.Dialog
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -16,8 +13,6 @@ import android.os.Looper
 import android.print.PrintAttributes
 import android.print.PrintJob
 import android.print.PrintManager
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,136 +20,120 @@ import android.webkit.*
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.braineer.nuresult.databinding.FragmentWebViewBinding
-import com.google.ads.mediation.admob.AdMobAdapter
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class WebViewFragment : Fragment() {
 
-    lateinit var binding: FragmentWebViewBinding
+    private var _binding: FragmentWebViewBinding? = null
+    private val binding get() = _binding!!
+
     private var printWeb: WebView? = null
     private var printJob: PrintJob? = null
     private var printBtnPressed = false
-    private var dialog:AlertDialog? = null
+    private var dialog: AlertDialog? = null
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding =  FragmentWebViewBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentWebViewBinding.inflate(inflater, container, false)
 
+        setupWebViewSettings()
+        setupSwipeRefresh()
+        setupClients()
+        setupPdfPrintButton()
+        setupBackNavigation()
 
-        binding.webview.settings.javaScriptEnabled = true
-        binding.webview.settings.setRenderPriority(WebSettings.RenderPriority.HIGH)
-        binding.webview.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
-        binding.webview.settings.databaseEnabled = true
-        binding.webview.settings.domStorageEnabled = true
-        binding.webview.settings.setSupportZoom(true)
-        binding.webview.settings.javaScriptCanOpenWindowsAutomatically = true
-        binding.webview.settings.builtInZoomControls = true
+        arguments?.getString("url")?.let {
+            binding.webview.loadUrl(it)
+        }
 
-        binding.webview.settings.setGeolocationEnabled(true)
+        return binding.root
+    }
 
-        //setting swiperefreshlistener
-        binding.swiperefreshlayout.setOnRefreshListener{
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun setupWebViewSettings() {
+        binding.webview.settings.apply {
+            javaScriptEnabled = true
+            cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+            domStorageEnabled = true
+            setSupportZoom(true)
+            builtInZoomControls = true
+            displayZoomControls = false
+            javaScriptCanOpenWindowsAutomatically = true
+            setGeolocationEnabled(true)
+        }
+    }
+
+    private fun setupSwipeRefresh() {
+        binding.swiperefreshlayout.setOnRefreshListener {
             binding.swiperefreshlayout.isRefreshing = true
-            Handler().postDelayed({
-
-                binding.savePdfBtn.visibility = View.GONE
-                binding.swiperefreshlayout.isRefreshing = false
-                binding.webview.reload()
-
+            binding.savePdfBtn.visibility = View.GONE
+            mainHandler.postDelayed({
+                _binding?.let {
+                    it.swiperefreshlayout.isRefreshing = false
+                    it.webview.reload()
+                }
             }, 1500)
         }
 
+        val ctx = requireContext()
         binding.swiperefreshlayout.setColorSchemeColors(
-
-            resources.getColor(R.color.holo_red_dark),
-            resources.getColor(R.color.holo_blue_dark),
-            resources.getColor(R.color.holo_orange_dark),
-            resources.getColor(R.color.holo_green_dark),
-
+            ContextCompat.getColor(ctx, android.R.color.holo_red_dark),
+            ContextCompat.getColor(ctx, android.R.color.holo_blue_dark),
+            ContextCompat.getColor(ctx, android.R.color.holo_orange_dark),
+            ContextCompat.getColor(ctx, android.R.color.holo_green_dark)
         )
+    }
 
-
+    private fun setupClients() {
         binding.webview.webViewClient = object : WebViewClient() {
-
-/*            @Deprecated("Deprecated in Java")
-            override fun shouldOverrideUrlLoading(webView: WebView?, url: String): Boolean {
-                return if (url.contains(arguments?.getString("url").toString())*//* || arguments?.getString("type").toString()=="NU"*//*) {
-                    false
-                } else {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    activity!!.startActivity(intent)
-                    findNavController().popBackStack()
-                    true
-                }
-            }*/
-            @SuppressLint("WebViewClientOnReceivedSslError")
             override fun onReceivedSslError(
                 view: WebView,
                 handler: SslErrorHandler,
                 error: SslError
             ) {
-                val builder = AlertDialog.Builder(requireActivity())
-                builder.setMessage("মেইন সার্ভারের সমস্যার জন্য অনেক সময় সাইট লোড হতে সময় লাগে। সেক্ষেত্রে উপর থেকে টেনে সোয়াইপ করে বার বার রিফ্রেশ করুন।\n" +
-                        "অথবা আপনার ইন্টারনেট কানেকশন চেক করুন।")
-                builder.setCancelable(false)
-                builder.setPositiveButton("ঠিক আছে") { dialog: DialogInterface?, which: Int ->
-                    handler.proceed()
-                    binding.webview.reload()
-                }
-                //                builder.setNegativeButton("exit", (dialog, which) -> {
-    //                    handler.cancel();
-    //                    finish();
-    //                });
-                dialog = builder.create()
-                dialog!!.show()
-
+                handler.cancel() // Strict adherence to Google Play Security policy
+                showErrorDialog(
+                    "নিরাপদ কানেকশন স্থাপন করা সম্ভব হয়নি। অনুগ্রহ করে আপনার ইন্টারনেট কানেকশন ও ফোনের তারিখ/সময় চেক করুন।"
+                )
             }
 
-            @Deprecated("Deprecated in Java")
             override fun onReceivedError(
                 view: WebView,
-                errorCod: Int,
+                errorCode: Int,
                 description: String,
                 failingUrl: String
             ) {
                 binding.savePdfBtn.visibility = View.GONE
-                val builder = AlertDialog.Builder(requireActivity())
-                builder.setMessage("মেইন সার্ভারের সমস্যার জন্য অনেক সময় সাইট লোড হতে সময় লাগে। সেক্ষেত্রে উপর থেকে টেনে সোয়াইপ করে বার বার রিফ্রেশ করুন।\nঅথবা আপনার ইন্টারনেট কানেকশন চেক করুন।")
-                builder.setCancelable(true)
-                builder.setPositiveButton(
-                    "ঠিক আছে"
-                ) { _: DialogInterface?, _: Int -> binding.webview.reload() }
-                dialog = builder.create()
-                dialog!!.show()
+                showErrorDialog(
+                    "মেইন সার্ভারের সমস্যার জন্য অনেক সময় সাইট লোড হতে সময় লাগে। উপর থেকে টেনে সোয়াইপ করে আবার চেষ্টা করুন।"
+                )
             }
 
             override fun onReceivedHttpError(
-                view: WebView?, request: WebResourceRequest?,
+                view: WebView?,
+                request: WebResourceRequest?,
                 errorResponse: WebResourceResponse?
             ) {
                 super.onReceivedHttpError(view, request, errorResponse)
+                val statusCode = errorResponse?.statusCode ?: 200
+                if (request?.isForMainFrame == true && statusCode >= 400) {
+                    binding.savePdfBtn.visibility = View.GONE
+                    showErrorDialog(
+                        "রেজাল্ট সার্ভারটি বর্তমানে অনুপলব্ধ বা অতিরিক্ত ট্রাফিকের কারণে ব্যস্ত আছে (HTTP $statusCode)। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।"
+                    )
+                }
             }
-
         }
-
-        arguments?.getString("url")?.let { binding.webview.loadUrl(it) }
 
         binding.webview.webChromeClient = object : WebChromeClient() {
             override fun onGeolocationPermissionsShowPrompt(
@@ -163,93 +142,89 @@ class WebViewFragment : Fragment() {
             ) {
                 callback.invoke(origin, true, false)
             }
-        }
 
-
-        binding.webview.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, progress: Int) {
-                binding.progress.progress = progress
-                if (progress > 99) {
-                    printWeb = binding.webview
-                    binding.progress.visibility = View.GONE
-                    binding.savePdfBtn.visibility = View.VISIBLE
-
-                    (activity as? MainActivity)?.supportActionBar?.title = view.title
-
-
-
-                } else if (progress in 1..89) {
-
-                        binding.progress.visibility = View.VISIBLE
-                        binding.savePdfBtn.visibility = View.GONE
-
+                _binding?.let { b ->
+                    b.progress.progress = progress
+                    if (progress > 99) {
+                        printWeb = b.webview
+                        b.progress.visibility = View.GONE
+                        b.savePdfBtn.visibility = View.VISIBLE
+                        (activity as? MainActivity)?.supportActionBar?.title = view.title
+                    } else if (progress in 1..89) {
+                        b.progress.visibility = View.VISIBLE
+                        b.savePdfBtn.visibility = View.GONE
+                    }
                 }
             }
         }
+    }
 
+    private fun showErrorDialog(message: String) {
+        if (!isAdded || isDetached) return
+        dialog?.dismiss()
+        dialog = AlertDialog.Builder(requireContext())
+            .setMessage(message)
+            .setCancelable(true)
+            .setPositiveButton("আবার চেষ্টা করুন") { _, _ ->
+                binding.webview.reload()
+            }
+            .setNegativeButton("ফিরে যান") { _, _ ->
+                findNavController().popBackStack()
+            }
+            .create()
+        dialog?.show()
+    }
 
-        // setting clickListener for Save Pdf Button
-        binding.savePdfBtn.setOnClickListener(View.OnClickListener {
-            if (printWeb != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    // Calling createWebPrintJob()
-                    PrintTheWebPage(printWeb!!)
-                } else {
-                    // Showing Toast message to user
-                    Snackbar.make(
-                        requireActivity().findViewById<View>(R.id.content),
-                        "Not available for device below Android LOLLIPOP",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
+    private fun setupPdfPrintButton() {
+        binding.savePdfBtn.setOnClickListener {
+            val web = printWeb
+            if (web != null) {
+                printTheWebPage(web)
             } else {
-                // Showing Toast message to user
                 Snackbar.make(
-                    requireActivity().findViewById(R.id.content),
+                    requireActivity().findViewById(android.R.id.content),
                     "WebPage not fully loaded",
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
-        })
-
-        val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true /* enabled by default */) {
-                override fun handleOnBackPressed() {
-
-                    if (binding.webview.canGoBack()) {
-                        binding.webview.goBack();
-                    } else {
-                        findNavController().popBackStack()
-                        binding.webview.stopLoading()
-                    }
-                }
-            }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
-
-        return binding.root
+        }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private fun PrintTheWebPage(webView: WebView) {
+    private fun setupBackNavigation() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (_binding != null && binding.webview.canGoBack()) {
+                    binding.webview.goBack()
+                } else {
+                    _binding?.webview?.stopLoading()
+                    findNavController().popBackStack()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
 
-        // set printBtnPressed true
+    private fun printTheWebPage(webView: WebView) {
         printBtnPressed = true
+        val printManager = requireActivity().getSystemService(Context.PRINT_SERVICE) as? PrintManager
+        if (printManager == null) {
+            Snackbar.make(
+                requireActivity().findViewById(android.R.id.content),
+                "Print service not available on this device",
+                Snackbar.LENGTH_SHORT
+            ).show()
+            return
+        }
 
-        // Creating  PrintManager instance
-        val printManager = requireActivity()
-            .getSystemService(Context.PRINT_SERVICE) as PrintManager?
-        val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy_HH:mm:ss a")
+        val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy_HH:mm:ss a", Locale.getDefault())
         val cal = Calendar.getInstance()
-
-        // setting the name of job
-        val jobName =  "Results BD_" + dateFormat.format(cal.time)
-
-        // Creating  PrintDocumentAdapter instance
+        val jobName = "Results BD_" + dateFormat.format(cal.time)
         val printAdapter = webView.createPrintDocumentAdapter(jobName)
-        assert(printManager != null)
-        printJob = printManager!!.print(
-            jobName, printAdapter,
+
+        printJob = printManager.print(
+            jobName,
+            printAdapter,
             PrintAttributes.Builder().build()
         )
     }
@@ -257,43 +232,44 @@ class WebViewFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if (printJob != null && printBtnPressed) {
-            if (printJob!!.isCompleted()) {
-                // Showing Toast Message
-                Snackbar.make(
-                    requireActivity().findViewById<View>(R.id.content),
-                    "PDF Saved Successfully",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            } else if (printJob!!.isStarted()) {
-                // Showing Toast Message
-                Snackbar.make(requireActivity().findViewById<View>(R.id.content), "Started", Snackbar.LENGTH_SHORT)
-                    .show()
-            } else if (printJob!!.isBlocked()) {
-                // Showing Toast Message
-                Snackbar.make(requireActivity().findViewById<View>(R.id.content), "Blocked", Snackbar.LENGTH_SHORT)
-                    .show()
-            } else if (printJob!!.isCancelled()) {
-                // Showing Toast Message
-                Snackbar.make(requireActivity().findViewById<View>(R.id.content), "Cancelled", Snackbar.LENGTH_SHORT)
-                    .show()
-            } else if (printJob!!.isFailed()) {
-                // Showing Toast Message
-                Snackbar.make(requireActivity().findViewById<View>(R.id.content), "Failed", Snackbar.LENGTH_SHORT)
-                    .show()
-            } else if (printJob!!.isQueued()) {
-                // Showing Toast Message
-                Snackbar.make(requireActivity().findViewById<View>(R.id.content), "Queued", Snackbar.LENGTH_SHORT)
-                    .show()
+            val job = printJob
+            if (job != null) {
+                val message = when {
+                    job.isCompleted -> "PDF Saved Successfully"
+                    job.isStarted -> "Started"
+                    job.isBlocked -> "Blocked"
+                    job.isCancelled -> "Cancelled"
+                    job.isFailed -> "Failed"
+                    job.isQueued -> "Queued"
+                    else -> null
+                }
+                if (message != null) {
+                    Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        message,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             }
-            // set printBtnPressed false
             printBtnPressed = false
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if (dialog!=null){
-            dialog!!.dismiss()
+        dialog?.dismiss()
+        dialog = null
+        mainHandler.removeCallbacksAndMessages(null)
+
+        _binding?.let {
+            it.webview.apply {
+                stopLoading()
+                loadUrl("about:blank")
+                clearHistory()
+                removeAllViews()
+                destroy()
+            }
         }
+        _binding = null
     }
 }
