@@ -8,23 +8,20 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.braineer.nuresult.databinding.ActivityMainBinding
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.MobileAds
 import com.google.android.ump.ConsentForm
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
-import java.util.concurrent.atomic.AtomicBoolean
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +36,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.mToolbar.updatePadding(top = systemBars.top)
+            binding.root.updatePadding(
+                bottom = systemBars.bottom,
+                left = systemBars.left,
+                right = systemBars.right
+            )
+            insets
+        }
 
         setSupportActionBar(binding.mToolbar)
         val navHostFragment = supportFragmentManager
@@ -87,82 +94,43 @@ class MainActivity : AppCompatActivity() {
                 )
             })
 
+        onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (navController.currentDestination?.id == R.id.dashboardFragment) {
+                    customExitDialog()
+                } else {
+                    if (!navController.popBackStack()) {
+                        finish()
+                    }
+                }
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         if (item.itemId == android.R.id.home) {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
-
-        return true
-    }
-
-    override fun onBackPressed() {
-
-        if (navController.currentDestination!!.id == R.id.dashboardFragment) {
-            customExitDialog()
-        } else {
-            super.onBackPressed()
-        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun customExitDialog() {
-        // creating custom dialog
         val dialog = Dialog(this@MainActivity)
-
-        // setting content view to dialog
         dialog.setContentView(R.layout.custom_exit_dialog)
 
-        // getting reference id
         val dialogButtonYes = dialog.findViewById<TextView>(R.id.textViewYes)
         val dialogButtonNo = dialog.findViewById<TextView>(R.id.textViewNo)
-        val exitAd = dialog.findViewById<AdView>(R.id.exit_banner_ad)
 
-        //ad
-        val adRequest = AdRequest.Builder().build()
-        exitAd.loadAd(adRequest)
-
-        exitAd.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                // Ad has successfully loaded.
-                exitAd.isVisible = true
-            }
-
-            override fun onAdFailedToLoad(p0: LoadAdError) {
-                // Ad failed to load.
-                exitAd.isVisible = false
-            }
-
-            override fun onAdOpened() {
-                // Ad has been clicked and opened.
-            }
-
-            override fun onAdClicked() {
-                // User clicked on the ad.
-            }
-
-            override fun onAdClosed() {
-                // Ad has been closed by the user.
-            }
-        }
-
-        // click listener for No
-        dialogButtonNo.setOnClickListener { v: View? ->
-            //dismiss the dialog
+        dialogButtonNo?.setOnClickListener {
             dialog.dismiss()
         }
 
-        // click listener for Yes
-        dialogButtonYes.setOnClickListener { v: View? ->
-            // dismiss the dialog
-            // and exit the exit
+        dialogButtonYes?.setOnClickListener {
             dialog.dismiss()
             finish()
         }
 
-        // show the exit dialog
         dialog.show()
     }
 }
