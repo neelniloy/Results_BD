@@ -14,14 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.google.android.gms.ads.AdView
-            android:layout_gravity="center"
-            android:id="@+id/exit_banner_ad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id">
-        </com.google.android.gms.ads.AdView>
+
 
         <!-- exit the app textview -->
         <TextView

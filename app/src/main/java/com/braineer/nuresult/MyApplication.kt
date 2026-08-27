@@ -1,8 +1,7 @@
 package com.braineer.nuresult
 
 import android.app.Application
-import com.google.android.gms.ads.MobileAds
-import com.niloythings.lanstreamer.ads.AdManager
+import com.braineer.nuresult.ads.AdManager
 
 class MyApplication : Application() {
     override fun onCreate() {

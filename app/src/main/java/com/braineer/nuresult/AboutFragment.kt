@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,122 +14,110 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
-
 class AboutFragment : Fragment() {
 
-    private lateinit var binding : FragmentAboutBinding
-    private lateinit var adView: AdView
+    private lateinit var binding: FragmentAboutBinding
+    private var adView: AdView? = null
     private var initialLayoutComplete = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentAboutBinding.inflate(inflater, container, false)
 
-        //Initiate Ad View
-        adView = AdView(requireContext())
-
-        binding.logo.setOnClickListener {
-            //Toast.makeText(requireActivity(), "", Toast.LENGTH_LONG).show()
-        }
-
-
         binding.facebook.setOnClickListener {
-            val defaultBrowser = Intent(Intent.ACTION_VIEW)
-            defaultBrowser.data = Uri.parse("https://www.facebook.com/niloythings/")
-            startActivity(defaultBrowser)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/niloythings/"))
+            startActivity(intent)
         }
 
         binding.telegram.setOnClickListener {
-            val defaultBrowser = Intent(Intent.ACTION_VIEW)
-            defaultBrowser.data = Uri.parse("https://t.me/niloythings")
-            startActivity(defaultBrowser)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/niloythings"))
+            startActivity(intent)
         }
 
         binding.github.setOnClickListener {
-            val defaultBrowser = Intent(Intent.ACTION_VIEW)
-            defaultBrowser.data = Uri.parse("https://github.com/neelniloy")
-            startActivity(defaultBrowser)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/neelniloy"))
+            startActivity(intent)
         }
 
         binding.linkedin.setOnClickListener {
-            val defaultBrowser = Intent(Intent.ACTION_VIEW)
-            defaultBrowser.data = Uri.parse("https://www.linkedin.com/in/niloysarker/")
-            startActivity(defaultBrowser)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/niloysarker/"))
+            startActivity(intent)
         }
 
         binding.youtube.setOnClickListener {
-            val defaultBrowser = Intent(Intent.ACTION_VIEW)
-            defaultBrowser.data = Uri.parse("https://youtube.com/@niloythings")
-            startActivity(defaultBrowser)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/@niloythings"))
+            startActivity(intent)
         }
 
         binding.cardRating.setOnClickListener {
-
-            val uri: Uri = Uri.parse("market://details?id=${requireActivity().packageName}")
-            val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+            val uri = Uri.parse("market://details?id=${requireActivity().packageName}")
+            val goToMarket = Intent(Intent.ACTION_VIEW, uri).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+            }
             try {
                 startActivity(goToMarket)
             } catch (e: ActivityNotFoundException) {
-                startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=${requireActivity().packageName}")))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${requireActivity().packageName}")))
             }
         }
 
-        //ads
-        binding.bannerAd.addView(adView)
-
-        binding.bannerAd.viewTreeObserver.addOnGlobalLayoutListener {
-            if (!initialLayoutComplete) {
-                initialLayoutComplete = true
-                adView.adUnitId = getString(R.string.banner_ad_unit_id)
-                adView.setAdSize(adSize)
-                val extras = Bundle()
-                extras.putString("collapsible", "bottom")
-                val adRequest = AdRequest.Builder()
-                    .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
-                    .build()
-                adView.loadAd(adRequest)
-            }
-        }
+        setupBannerAd()
 
         return binding.root
     }
 
+    private fun setupBannerAd() {
+        if (adView == null) {
+            adView = AdView(requireContext())
+            binding.bannerAd.removeAllViews()
+            binding.bannerAd.addView(adView)
+
+            binding.bannerAd.viewTreeObserver.addOnGlobalLayoutListener {
+                if (!initialLayoutComplete && isAdded) {
+                    initialLayoutComplete = true
+                    adView?.let { ad ->
+                        ad.adUnitId = getString(R.string.banner_ad_unit_id)
+                        ad.setAdSize(adSize)
+                        val extras = Bundle().apply {
+                            putString("collapsible", "bottom")
+                        }
+                        val adRequest = AdRequest.Builder()
+                            .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
+                            .build()
+                        ad.loadAd(adRequest)
+                    }
+                }
+            }
+        }
+    }
+
     private val adSize: AdSize
         get() {
-            val display = requireActivity().windowManager.defaultDisplay
-            val outMetrics = DisplayMetrics()
-            display.getMetrics(outMetrics)
-
-            val density = outMetrics.density
-
+            val displayMetrics = resources.displayMetrics
+            val density = displayMetrics.density
             var adWidthPixels = binding.bannerAd.width.toFloat()
             if (adWidthPixels == 0f) {
-                adWidthPixels = outMetrics.widthPixels.toFloat()
+                adWidthPixels = displayMetrics.widthPixels.toFloat()
             }
-
             val adWidth = (adWidthPixels / density).toInt()
-            return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(requireActivity(), adWidth)
+            return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(requireContext(), adWidth)
         }
+
     override fun onPause() {
-        adView.pause()
+        adView?.pause()
         super.onPause()
     }
 
     override fun onResume() {
-        adView.resume()
         super.onResume()
+        adView?.resume()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        adView.destroy()
+        adView?.destroy()
+        adView = null
     }
-
 }

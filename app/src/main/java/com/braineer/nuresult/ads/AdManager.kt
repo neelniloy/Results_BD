@@ -1,72 +1,84 @@
-package com.niloythings.lanstreamer.ads
+package com.braineer.nuresult.ads
 
 import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import java.lang.ref.WeakReference
 
 object AdManager {
     private var interstitialAd: InterstitialAd? = null
     private var adUnitId: String? = null
-    private var adLoadTimer: Handler = Handler(Looper.getMainLooper())
-    private var adLoadRunnable: Runnable? = null
+    private var appContext: Context? = null
+    private var lastAdShownTime: Long = 0L
+    private const val MIN_AD_INTERVAL_MS = 60 * 1000L // 60 seconds interval
 
     fun initializeInterstitialAd(context: Context, adUnitId: String) {
+        this.appContext = context.applicationContext
         this.adUnitId = adUnitId
 
-        MobileAds.initialize(context)
-
-        adLoadRunnable = object : Runnable {
-            override fun run() {
-                if (interstitialAd == null) {
-                    loadInterstitialAd(context, AdManager.adUnitId ?: "")
-                    Log.d("ADS", "Start Ad Loading - ${System.currentTimeMillis()}")
-                }
-                adLoadTimer.postDelayed(this, 150 * 1000L)
-            }
-        }
-        adLoadRunnable?.let { adLoadTimer.postDelayed(it, 30 * 1000L) }
-
-
+        MobileAds.initialize(context.applicationContext)
+        loadInterstitialAd()
     }
 
-    private fun loadInterstitialAd(context: Context, adUnitId: String) {
-        val adRequest = AdRequest.Builder().build()
+    private fun loadInterstitialAd() {
+        val ctx = appContext ?: return
+        val unitId = adUnitId ?: return
+        if (interstitialAd != null) return
 
-        InterstitialAd.load(context, adUnitId, adRequest, object : InterstitialAdLoadCallback() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(ctx, unitId, adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                Log.d("ADS", adError.toString())
+                Log.d("ADS", "Interstitial load failed: ${adError.message}")
                 interstitialAd = null
             }
 
             override fun onAdLoaded(ad: InterstitialAd) {
-                Log.d("ADS", "Ad was loaded.")
+                Log.d("ADS", "Interstitial ad loaded successfully.")
                 interstitialAd = ad
             }
         })
     }
-    fun cancelAdLoading() {
-        adLoadRunnable?.let {
-            adLoadTimer.removeCallbacks(it)
-            Log.d("ADS", "Cancel Ad Loading.")
-        }
-    }
 
     fun showInterstitialAd(activity: Activity) {
-        if (interstitialAd != null) {
-            interstitialAd?.show(activity)
-            interstitialAd = null
-            cancelAdLoading()
-            adLoadRunnable?.let { adLoadTimer.postDelayed(it, 150 * 1000L) }
+        val now = System.currentTimeMillis()
+        if (now - lastAdShownTime < MIN_AD_INTERVAL_MS) {
+            Log.d("ADS", "Interstitial throttled to prevent spamming user.")
+            return
+        }
+
+        val ad = interstitialAd
+        if (ad != null) {
+            ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    Log.d("ADS", "Interstitial dismissed.")
+                    interstitialAd = null
+                    lastAdShownTime = System.currentTimeMillis()
+                    loadInterstitialAd()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                    Log.d("ADS", "Interstitial failed to show: ${adError.message}")
+                    interstitialAd = null
+                    loadInterstitialAd()
+                }
+
+                override fun onAdShowedFullScreenContent() {
+                    interstitialAd = null
+                }
+            }
+            ad.show(activity)
         } else {
-            Log.d("ADS", "The interstitial ad wasn't ready yet.")
+            Log.d("ADS", "The interstitial ad was not ready.")
+            loadInterstitialAd()
         }
     }
 }
+
