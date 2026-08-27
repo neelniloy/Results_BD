@@ -16,8 +16,8 @@ android {
         applicationId "com.braineer.nuresult"
         minSdk 21
         targetSdk 36
-        versionCode 13
-        versionName "5.6.3"
+        versionCode 14
+        versionName "5.6.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,9 +55,9 @@ dependencies {
     // Your other Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
-    // Keep other dependencies as they are
-    implementation 'com.google.android.gms:play-services-ads:21.1.0'
-    implementation 'com.google.android.ump:user-messaging-platform:2.1.0'
+    // Google Mobile Ads (GMA) & UMP SDK
+    implementation 'com.google.android.gms:play-services-ads:23.6.0'
+    implementation 'com.google.android.ump:user-messaging-platform:3.1.0'
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
