@@ -1,18 +1,22 @@
 package com.braineer.nuresult
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+
 data class DashboardItem(
-    var icon: Int,
-    var title: String,
+    @DrawableRes val icon: Int,
+    @StringRes val title: Int,
+    @StringRes val subtitle: Int,
     val type: DashboardItemType,
 )
 
 enum class DashboardItemType {
-    PSC,SSC,NU,ABOUT,OPEN
+    PSC, SSC, NU, OPEN
 }
+
 val dashboardItemList = listOf(
-    DashboardItem(icon = R.drawable.psc, title = "PSC Result", type = DashboardItemType.PSC),
-    DashboardItem(icon = R.drawable.ssc, title = "JSC/SSC/HSC Result", type = DashboardItemType.SSC),
-    DashboardItem(icon = R.drawable.nu, title = "National University Result", type = DashboardItemType.NU),
-    DashboardItem(icon = R.drawable.open, title = "Open University Result", type = DashboardItemType.OPEN),
-    DashboardItem(icon = R.drawable.about, title = "About", type = DashboardItemType.ABOUT)
+    DashboardItem(R.drawable.ssc, R.string.exam_ssc, R.string.exam_ssc_sub, DashboardItemType.SSC),
+    DashboardItem(R.drawable.nu, R.string.exam_nu, R.string.exam_nu_sub, DashboardItemType.NU),
+    DashboardItem(R.drawable.open, R.string.exam_open, R.string.exam_open_sub, DashboardItemType.OPEN),
+    DashboardItem(R.drawable.psc, R.string.exam_psc, R.string.exam_psc_sub, DashboardItemType.PSC)
 )

@@ -25,17 +25,21 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.ResultsBD.Starting" />
 
-        <activity
+        <!-- Keeps the old launcher component name so users' home screen shortcuts
+             still work after the SplashScreen activity was replaced by the SplashScreen API -->
+        <activity-alias
             android:name=".SplashScreen"
-            android:exported="true">
+            android:exported="true"
+            android:targetActivity=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

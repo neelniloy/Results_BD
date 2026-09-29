@@ -8,6 +8,7 @@ plugins {
 android {
     buildFeatures{
         dataBinding true
+        buildConfig true
     }
 
     compileSdk 36
@@ -16,14 +17,23 @@ android {
         applicationId "com.braineer.nuresult"
         minSdk 21
         targetSdk 36
-        versionCode 14
-        versionName "5.6.4"
+        versionCode 15
+        versionName "5.7.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            // Google's official test ad units, so testing never serves or clicks real ads
+            resValue "string", "app_id", "ca-app-pub-3940256099942544~3347511713"
+            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/9214589741"
+            resValue "string", "interstitial_ad_unit_id", "ca-app-pub-3940256099942544/1033173712"
+        }
         release {
+            resValue "string", "app_id", "ca-app-pub-1276360114688784~3736839849"
+            resValue "string", "banner_ad_unit_id", "ca-app-pub-1276360114688784/9861881603"
+            resValue "string", "interstitial_ad_unit_id", "ca-app-pub-1276360114688784/9308870346"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -49,9 +59,6 @@ dependencies {
     // Firebase BOM
     implementation platform('com.google.firebase:firebase-bom:33.1.2')
 
-    // Add this line if missing:
-    implementation 'com.google.firebase:firebase-firestore-ktx'
-
     // Your other Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
@@ -63,7 +70,9 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'androidx.activity:activity-ktx:1.9.3'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     testImplementation 'junit:junit:4.13.2'

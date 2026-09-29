@@ -10,43 +10,54 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Filled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:contentPadding="4dp"
+        android:layout_margin="6dp"
         android:clickable="true"
         android:focusable="true"
-        app:cardElevation="8dp"
-        app:cardCornerRadius="10dp"
-        app:strokeColor="@color/red"
-        app:strokeWidth="1dp"
-        app:cardBackgroundColor="?attr/colorOnPrimary"
-        android:foreground="?selectableItemBackground">
+        app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+        app:cardCornerRadius="20dp">
 
         <LinearLayout
-            android:padding="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="130dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/about"
-                app:imageResource="@{item.icon}"/>
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:background="@drawable/bg_logo_circle"
+                android:importantForAccessibility="no"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                app:imageResource="@{item.icon}"
+                tools:src="@drawable/ssc" />
+
             <TextView
-                android:layout_marginBottom="5dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:textColor = "?attr/colorPrimary"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:maxLines="2"
                 android:text="@{item.title}"
-                tools:text="Result"/>
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                android:textColor="?attr/colorOnSurface"
+                tools:text="National University" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@{item.subtitle}"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Hons · Degree · Masters" />
 
         </LinearLayout>
 

@@ -1,12 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <!-- Brand -->
+    <color name="brand_red">#FFDD1B2A</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="red">#DD1B2A</color>
-    <color name="bright_orange">#FFA500</color>
+    <color name="black">#FF000000</color>
+
+    <!-- Top app bar (overridden in values-night) -->
+    <color name="appbar_background">@color/brand_red</color>
+    <color name="appbar_content">@color/white</color>
+
+    <!-- Material 3 palette generated from brand red: light -->
+    <color name="md_light_primary">#FFC0111F</color>
+    <color name="md_light_onPrimary">#FFFFFFFF</color>
+    <color name="md_light_primaryContainer">#FFFFDAD6</color>
+    <color name="md_light_onPrimaryContainer">#FF410003</color>
+    <color name="md_light_secondary">#FF775652</color>
+    <color name="md_light_onSecondary">#FFFFFFFF</color>
+    <color name="md_light_secondaryContainer">#FFFFDAD6</color>
+    <color name="md_light_onSecondaryContainer">#FF2C1512</color>
+    <color name="md_light_tertiary">#FF715B2E</color>
+    <color name="md_light_onTertiary">#FFFFFFFF</color>
+    <color name="md_light_tertiaryContainer">#FFFDDFA6</color>
+    <color name="md_light_onTertiaryContainer">#FF261900</color>
+    <color name="md_light_error">#FFBA1A1A</color>
+    <color name="md_light_onError">#FFFFFFFF</color>
+    <color name="md_light_surface">#FFFFF8F7</color>
+    <color name="md_light_onSurface">#FF231918</color>
+    <color name="md_light_surfaceVariant">#FFF5DDDA</color>
+    <color name="md_light_onSurfaceVariant">#FF534341</color>
+    <color name="md_light_outline">#FF857371</color>
+    <color name="md_light_outlineVariant">#FFD8C2BF</color>
+    <color name="md_light_surfaceContainerLowest">#FFFFFFFF</color>
+    <color name="md_light_surfaceContainerLow">#FFFFF0EF</color>
+    <color name="md_light_surfaceContainer">#FFFCEAE8</color>
+    <color name="md_light_surfaceContainerHigh">#FFF6E4E2</color>
+    <color name="md_light_surfaceContainerHighest">#FFF1DEDC</color>
+
+    <!-- Material 3 palette generated from brand red: dark -->
+    <color name="md_dark_primary">#FFFFB4AB</color>
+    <color name="md_dark_onPrimary">#FF690005</color>
+    <color name="md_dark_primaryContainer">#FF93000F</color>
+    <color name="md_dark_onPrimaryContainer">#FFFFDAD6</color>
+    <color name="md_dark_secondary">#FFE7BDB7</color>
+    <color name="md_dark_onSecondary">#FF442926</color>
+    <color name="md_dark_secondaryContainer">#FF5D3F3B</color>
+    <color name="md_dark_onSecondaryContainer">#FFFFDAD6</color>
+    <color name="md_dark_tertiary">#FFE0C38C</color>
+    <color name="md_dark_onTertiary">#FF3F2D04</color>
+    <color name="md_dark_tertiaryContainer">#FF574419</color>
+    <color name="md_dark_onTertiaryContainer">#FFFDDFA6</color>
+    <color name="md_dark_error">#FFFFB4AB</color>
+    <color name="md_dark_onError">#FF690005</color>
+    <color name="md_dark_surface">#FF1A1110</color>
+    <color name="md_dark_onSurface">#FFF1DEDC</color>
+    <color name="md_dark_surfaceVariant">#FF534341</color>
+    <color name="md_dark_onSurfaceVariant">#FFD8C2BF</color>
+    <color name="md_dark_outline">#FFA08C8A</color>
+    <color name="md_dark_outlineVariant">#FF534341</color>
+    <color name="md_dark_surfaceContainerLowest">#FF140C0B</color>
+    <color name="md_dark_surfaceContainerLow">#FF231918</color>
+    <color name="md_dark_surfaceContainer">#FF271D1C</color>
+    <color name="md_dark_surfaceContainerHigh">#FF322827</color>
+    <color name="md_dark_surfaceContainerHighest">#FF3D3231</color>
 </resources>

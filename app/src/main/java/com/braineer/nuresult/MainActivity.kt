@@ -1,16 +1,15 @@
 package com.braineer.nuresult
 
-import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -18,7 +17,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.braineer.nuresult.databinding.ActivityMainBinding
-import com.google.android.ump.ConsentForm
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
@@ -33,6 +32,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var consentInformation: ConsentInformation
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+        // Light status bar icons over the red (light theme) / dark (night theme) app bar
+        enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT))
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -116,21 +118,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun customExitDialog() {
-        val dialog = Dialog(this@MainActivity)
-        dialog.setContentView(R.layout.custom_exit_dialog)
-
-        val dialogButtonYes = dialog.findViewById<TextView>(R.id.textViewYes)
-        val dialogButtonNo = dialog.findViewById<TextView>(R.id.textViewNo)
-
-        dialogButtonNo?.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialogButtonYes?.setOnClickListener {
-            dialog.dismiss()
-            finish()
-        }
-
-        dialog.show()
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.exit_title)
+            .setMessage(R.string.exit_message)
+            .setNegativeButton(R.string.exit_no, null)
+            .setPositiveButton(R.string.exit_yes) { _, _ -> finish() }
+            .show()
     }
 }

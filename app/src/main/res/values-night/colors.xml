@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="appbar_background">@color/md_dark_surfaceContainer</color>
+    <color name="appbar_content">@color/md_dark_onSurface</color>
+</resources>

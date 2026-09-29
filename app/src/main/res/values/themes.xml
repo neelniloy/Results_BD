@@ -1,16 +1,51 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.ResultsBD" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryVariant">@color/red</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/red</item>
-        <item name="colorSecondaryVariant">@color/red</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+    <!-- Colors live in Base so values-night only swaps the palette -->
+    <style name="Base.Theme.ResultsBD" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/md_light_primary</item>
+        <item name="colorOnPrimary">@color/md_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_light_tertiary</item>
+        <item name="colorOnTertiary">@color/md_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_light_onTertiaryContainer</item>
+        <item name="colorError">@color/md_light_error</item>
+        <item name="colorOnError">@color/md_light_onError</item>
+        <item name="colorSurface">@color/md_light_surface</item>
+        <item name="colorOnSurface">@color/md_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_light_outline</item>
+        <item name="colorOutlineVariant">@color/md_light_outlineVariant</item>
+        <item name="colorSurfaceContainerLowest">@color/md_light_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/md_light_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/md_light_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/md_light_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/md_light_surfaceContainerHighest</item>
+        <item name="android:colorBackground">@color/md_light_surface</item>
+    </style>
+
+    <style name="Theme.ResultsBD" parent="Base.Theme.ResultsBD">
+        <!-- Draw behind display cutouts; insets are handled in MainActivity -->
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+    </style>
+
+    <!-- Android 12+ style launch screen, backported by core-splashscreen -->
+    <style name="Theme.ResultsBD.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/brand_red</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.ResultsBD</item>
+    </style>
+
+    <!-- Tints toolbar title, back arrow and menu icons -->
+    <style name="ThemeOverlay.ResultsBD.AppBar" parent="">
+        <item name="colorControlNormal">@color/appbar_content</item>
+        <item name="colorOnSurface">@color/appbar_content</item>
+        <item name="android:textColorPrimary">@color/appbar_content</item>
     </style>
 </resources>

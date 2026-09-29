@@ -1,16 +1,30 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.ResultsBD" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryVariant">@color/red</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/red</item>
-        <item name="colorSecondaryVariant">@color/red</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+<resources>
+    <style name="Base.Theme.ResultsBD" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/md_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_dark_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_dark_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_dark_tertiary</item>
+        <item name="colorOnTertiary">@color/md_dark_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_dark_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_dark_onTertiaryContainer</item>
+        <item name="colorError">@color/md_dark_error</item>
+        <item name="colorOnError">@color/md_dark_onError</item>
+        <item name="colorSurface">@color/md_dark_surface</item>
+        <item name="colorOnSurface">@color/md_dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_dark_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_dark_outline</item>
+        <item name="colorOutlineVariant">@color/md_dark_outlineVariant</item>
+        <item name="colorSurfaceContainerLowest">@color/md_dark_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/md_dark_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/md_dark_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/md_dark_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/md_dark_surfaceContainerHighest</item>
+        <item name="android:colorBackground">@color/md_dark_surface</item>
     </style>
 </resources>

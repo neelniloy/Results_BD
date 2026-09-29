@@ -1,6 +1,33 @@
 <resources>
     <string name="app_name">Results BD</string>
-    <string name="app_id">ca-app-pub-1276360114688784~3736839849</string>
-    <string name="banner_ad_unit_id">ca-app-pub-1276360114688784/9861881603</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-1276360114688784/9308870346</string>
+    <!-- Ad IDs are defined per build type in app/build.gradle -->
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">Check your result</string>
+    <string name="dashboard_subtitle">Choose an exam to open the official result site</string>
+    <string name="exam_ssc">JSC / SSC / HSC</string>
+    <string name="exam_ssc_sub">Education Boards</string>
+    <string name="exam_nu">National University</string>
+    <string name="exam_nu_sub">Hons · Degree · Masters</string>
+    <string name="exam_open">Open University</string>
+    <string name="exam_open_sub">BOU all programs</string>
+    <string name="exam_psc">PSC</string>
+    <string name="exam_psc_sub">Primary</string>
+    <string name="about">About</string>
+
+    <!-- Result page -->
+    <string name="save_pdf">Save PDF</string>
+
+    <!-- About -->
+    <string name="about_tagline">All Bangladesh exam results in one place, saved as PDF</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_maintainer">Maintainer</string>
+    <string name="about_find_me">Find me on</string>
+    <string name="about_rate">Rate us on Play Store</string>
+
+    <!-- Exit dialog -->
+    <string name="exit_title">Exit Results BD?</string>
+    <string name="exit_message">Are you sure you want to exit the app?</string>
+    <string name="exit_no">No</string>
+    <string name="exit_yes">Exit</string>
 </resources>

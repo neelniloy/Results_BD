@@ -8,12 +8,12 @@ import com.braineer.nuresult.DashboardItemType
 import com.braineer.nuresult.dashboardItemList
 import com.braineer.nuresult.databinding.DashboardItemBinding
 
-class DashboardAdapter(val callback: (DashboardItemType) -> Unit, val callbackDark: (DashboardItem, Int) -> Unit) : RecyclerView.Adapter<DashboardAdapter.DashboardItemViewHolder>(){
-
+class DashboardAdapter(val callback: (DashboardItemType) -> Unit) : RecyclerView.Adapter<DashboardAdapter.DashboardItemViewHolder>() {
 
     class DashboardItemViewHolder(val binding: DashboardItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: DashboardItem) {
             binding.item = item
+            binding.executePendingBindings()
         }
     }
 
@@ -30,7 +30,6 @@ class DashboardAdapter(val callback: (DashboardItemType) -> Unit, val callbackDa
         holder.itemView.setOnClickListener {
             callback(item.type)
         }
-        callbackDark(item,position)
     }
 
     override fun getItemCount() = dashboardItemList.size

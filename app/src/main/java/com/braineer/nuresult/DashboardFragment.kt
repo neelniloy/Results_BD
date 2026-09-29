@@ -1,29 +1,30 @@
 package com.braineer.nuresult
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.braineer.nuresult.adapter.DashboardAdapter
 import com.braineer.nuresult.ads.AdManager
 import com.braineer.nuresult.databinding.FragmentDashboardBinding
-import com.braineer.nuresult.model.UrlModel
+import com.braineer.nuresult.model.ResultLinks
 import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
-import com.google.firebase.firestore.FirebaseFirestore
 
 class DashboardFragment : Fragment() {
 
     private lateinit var binding: FragmentDashboardBinding
-    private var websiteurl: UrlModel = UrlModel()
     private var adView: AdView? = null
     private var initialLayoutComplete = false
 
@@ -33,33 +34,28 @@ class DashboardFragment : Fragment() {
     ): View {
         binding = FragmentDashboardBinding.inflate(inflater, container, false)
 
-        val reference = FirebaseFirestore.getInstance()
-            .collection("Website")
-            .document("URL")
-
-        reference.get().addOnSuccessListener { document ->
-            if (document != null && document.exists()) {
-                document.toObject(UrlModel::class.java)?.let {
-                    websiteurl = it
-                }
-            }
-        }.addOnFailureListener {
-            // Falls back to default UrlModel() URLs
-        }
-
-        val adapter = DashboardAdapter({
-            navigateToDashboardItemPage(it)
-        }, { _, _ -> })
-
-        val llm = LinearLayoutManager(requireActivity())
-        llm.orientation = LinearLayoutManager.VERTICAL
-        binding.recyclerView.layoutManager = llm
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerView.adapter = DashboardAdapter { navigateToDashboardItemPage(it) }
 
         // Setup Banner Ad safely
         setupBannerAd()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_dashboard, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                if (menuItem.itemId != R.id.action_about) return false
+                findNavController().navigate(R.id.action_dashboardFragment_to_aboutFragment)
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun setupBannerAd() {
@@ -91,31 +87,8 @@ class DashboardFragment : Fragment() {
         // Show interstitial ad if ready with throttling
         activity?.let { act -> AdManager.showInterstitialAd(act) }
 
-        when (it) {
-            DashboardItemType.PSC -> {
-                val url = websiteurl.psc ?: "http://www.educationboardresults.gov.bd/"
-                val bundle = bundleOf("url" to url, "type" to "PSC")
-                findNavController().navigate(R.id.action_dashboardFragment_to_webViewFragment, bundle)
-            }
-            DashboardItemType.SSC -> {
-                val url = websiteurl.ssc ?: "http://www.educationboardresults.gov.bd/"
-                val bundle = bundleOf("url" to url, "type" to "SSC")
-                findNavController().navigate(R.id.action_dashboardFragment_to_webViewFragment, bundle)
-            }
-            DashboardItemType.OPEN -> {
-                val url = websiteurl.open ?: "https://www.bou.ac.bd/result"
-                val bundle = bundleOf("url" to url, "type" to "OPEN")
-                findNavController().navigate(R.id.action_dashboardFragment_to_webViewFragment, bundle)
-            }
-            DashboardItemType.NU -> {
-                val url = websiteurl.nu ?: "http://results.nu.ac.bd/"
-                val bundle = bundleOf("url" to url, "type" to "NU")
-                findNavController().navigate(R.id.action_dashboardFragment_to_webViewFragment, bundle)
-            }
-            DashboardItemType.ABOUT -> {
-                findNavController().navigate(R.id.aboutFragment)
-            }
-        }
+        val bundle = bundleOf("url" to ResultLinks.urlFor(it), "type" to it.name)
+        findNavController().navigate(R.id.action_dashboardFragment_to_webViewFragment, bundle)
     }
 
     private val adSize: AdSize

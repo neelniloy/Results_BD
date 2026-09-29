@@ -20,10 +20,11 @@ import android.webkit.*
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.braineer.nuresult.databinding.FragmentWebViewBinding
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -85,12 +86,11 @@ class WebViewFragment : Fragment() {
             }, 1500)
         }
 
-        val ctx = requireContext()
         binding.swiperefreshlayout.setColorSchemeColors(
-            ContextCompat.getColor(ctx, android.R.color.holo_red_dark),
-            ContextCompat.getColor(ctx, android.R.color.holo_blue_dark),
-            ContextCompat.getColor(ctx, android.R.color.holo_orange_dark),
-            ContextCompat.getColor(ctx, android.R.color.holo_green_dark)
+            MaterialColors.getColor(binding.root, androidx.appcompat.R.attr.colorPrimary)
+        )
+        binding.swiperefreshlayout.setProgressBackgroundColorSchemeColor(
+            MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurfaceContainerHigh)
         )
     }
 
@@ -163,7 +163,7 @@ class WebViewFragment : Fragment() {
     private fun showErrorDialog(message: String) {
         if (!isAdded || isDetached) return
         dialog?.dismiss()
-        dialog = AlertDialog.Builder(requireContext())
+        dialog = MaterialAlertDialogBuilder(requireContext())
             .setMessage(message)
             .setCancelable(true)
             .setPositiveButton("আবার চেষ্টা করুন") { _, _ ->

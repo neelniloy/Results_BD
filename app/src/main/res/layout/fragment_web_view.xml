@@ -13,59 +13,43 @@
         tools:context=".WebViewFragment">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:layout_above="@+id/banner_ad"
             android:id="@+id/swiperefreshlayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/banner_ad">
 
             <WebView
-                android:layout_below="@+id/progress"
                 android:id="@+id/webview"
-                android:layout_alignParentStart="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <ProgressBar
-            android:layout_alignParentTop="true"
-            style="?android:attr/progressBarStyleHorizontal"
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/progress"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
             android:max="100"
-            android:progress="0" />
+            app:trackThickness="3dp" />
 
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_above="@+id/banner_ad"
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/savePdfBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/white"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="15dp"
-            app:contentPadding="10dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_pdf" />
-
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_above="@+id/banner_ad"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:text="@string/save_pdf"
+            android:visibility="gone"
+            app:icon="@drawable/ic_download"
+            tools:visibility="visible" />
 
         <FrameLayout
             android:id="@+id/banner_ad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 </layout>

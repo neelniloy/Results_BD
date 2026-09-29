@@ -25,6 +25,7 @@ class AboutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAboutBinding.inflate(inflater, container, false)
+        binding.versionText.text = getString(R.string.about_version, BuildConfig.VERSION_NAME)
 
         binding.facebook.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/niloythings/"))
