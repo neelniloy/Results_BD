@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bangla translations. Strings missing here fall back to values/strings.xml (English). -->
+<resources>
+    <!-- Result page errors -->
+    <string name="error_ssl">নিরাপদ কানেকশন স্থাপন করা সম্ভব হয়নি। অনুগ্রহ করে আপনার ইন্টারনেট কানেকশন ও ফোনের তারিখ/সময় চেক করুন।</string>
+    <string name="error_network">মেইন সার্ভারের সমস্যার জন্য অনেক সময় সাইট লোড হতে সময় লাগে। উপর থেকে টেনে সোয়াইপ করে আবার চেষ্টা করুন।</string>
+    <string name="error_http">রেজাল্ট সার্ভারটি বর্তমানে অনুপলব্ধ বা অতিরিক্ত ট্রাফিকের কারণে ব্যস্ত আছে (HTTP %1$d)। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।</string>
+    <string name="error_retry">আবার চেষ্টা করুন</string>
+    <string name="error_back">ফিরে যান</string>
+
+    <!-- Server watch -->
+    <string name="watch_button">চালু হলে জানান</string>
+    <string name="watch_started">%1$s সার্ভার চালু হলে আমরা আপনাকে নোটিফিকেশন দেব</string>
+    <string name="watch_permission_denied">সার্ভার চালু হওয়ার খবর পেতে নোটিফিকেশন অনুমতি দিন</string>
+    <string name="watch_up_title">রেজাল্ট সার্ভার চালু হয়েছে</string>
+    <string name="watch_up_text">%1$s — এখনই রেজাল্ট দেখুন</string>
+</resources>

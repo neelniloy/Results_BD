@@ -1,9 +1,11 @@
 package com.braineer.nuresult
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.net.http.SslError
 import android.os.Build
@@ -18,11 +20,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.braineer.nuresult.databinding.FragmentWebViewBinding
+import com.braineer.nuresult.watch.ServerWatch
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -39,6 +44,8 @@ class WebViewFragment : Fragment() {
     private var printJob: PrintJob? = null
     private var printBtnPressed = false
     private var dialog: AlertDialog? = null
+    // Hides "Save PDF" while an error page is shown instead of a result
+    private var loadFailed = false
     private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
@@ -64,7 +71,9 @@ class WebViewFragment : Fragment() {
     private fun setupWebViewSettings() {
         binding.webview.settings.apply {
             javaScriptEnabled = true
-            cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+            // LOAD_DEFAULT revalidates with the server; LOAD_CACHE_ELSE_NETWORK showed stale
+            // result pages (even offline) instead of fresh results or an error
+            cacheMode = WebSettings.LOAD_DEFAULT
             domStorageEnabled = true
             setSupportZoom(true)
             builtInZoomControls = true
@@ -96,15 +105,18 @@ class WebViewFragment : Fragment() {
 
     private fun setupClients() {
         binding.webview.webViewClient = object : WebViewClient() {
+            override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                loadFailed = false
+            }
+
             override fun onReceivedSslError(
                 view: WebView,
                 handler: SslErrorHandler,
                 error: SslError
             ) {
                 handler.cancel() // Strict adherence to Google Play Security policy
-                showErrorDialog(
-                    "নিরাপদ কানেকশন স্থাপন করা সম্ভব হয়নি। অনুগ্রহ করে আপনার ইন্টারনেট কানেকশন ও ফোনের তারিখ/সময় চেক করুন।"
-                )
+                showErrorDialog(getString(R.string.error_ssl))
             }
 
             override fun onReceivedError(
@@ -114,9 +126,7 @@ class WebViewFragment : Fragment() {
                 failingUrl: String
             ) {
                 binding.savePdfBtn.visibility = View.GONE
-                showErrorDialog(
-                    "মেইন সার্ভারের সমস্যার জন্য অনেক সময় সাইট লোড হতে সময় লাগে। উপর থেকে টেনে সোয়াইপ করে আবার চেষ্টা করুন।"
-                )
+                showErrorDialog(getString(R.string.error_network), offerWatch = true)
             }
 
             override fun onReceivedHttpError(
@@ -129,7 +139,9 @@ class WebViewFragment : Fragment() {
                 if (request?.isForMainFrame == true && statusCode >= 400) {
                     binding.savePdfBtn.visibility = View.GONE
                     showErrorDialog(
-                        "রেজাল্ট সার্ভারটি বর্তমানে অনুপলব্ধ বা অতিরিক্ত ট্রাফিকের কারণে ব্যস্ত আছে (HTTP $statusCode)। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।"
+                        getString(R.string.error_http, statusCode),
+                        // Overload/outage codes only; a 404 won't fix itself by waiting
+                        offerWatch = statusCode >= 500 || statusCode == 429
                     )
                 }
             }
@@ -149,7 +161,7 @@ class WebViewFragment : Fragment() {
                     if (progress > 99) {
                         printWeb = b.webview
                         b.progress.visibility = View.GONE
-                        b.savePdfBtn.visibility = View.VISIBLE
+                        b.savePdfBtn.visibility = if (loadFailed) View.GONE else View.VISIBLE
                         (activity as? MainActivity)?.supportActionBar?.title = view.title
                     } else if (progress in 1..89) {
                         b.progress.visibility = View.VISIBLE
@@ -160,20 +172,55 @@ class WebViewFragment : Fragment() {
         }
     }
 
-    private fun showErrorDialog(message: String) {
+    /** [offerWatch] adds "notify me when it's back" for server-side failures. */
+    private fun showErrorDialog(message: String, offerWatch: Boolean = false) {
+        loadFailed = true
+        _binding?.savePdfBtn?.visibility = View.GONE
         if (!isAdded || isDetached) return
         dialog?.dismiss()
-        dialog = MaterialAlertDialogBuilder(requireContext())
+        val builder = MaterialAlertDialogBuilder(requireContext())
             .setMessage(message)
             .setCancelable(true)
-            .setPositiveButton("আবার চেষ্টা করুন") { _, _ ->
+            .setPositiveButton(R.string.error_retry) { _, _ ->
                 binding.webview.reload()
             }
-            .setNegativeButton("ফিরে যান") { _, _ ->
+            .setNegativeButton(R.string.error_back) { _, _ ->
                 findNavController().popBackStack()
             }
-            .create()
+        if (offerWatch) {
+            builder.setNeutralButton(R.string.watch_button) { _, _ -> requestServerWatch() }
+        }
+        dialog = builder.create()
         dialog?.show()
+    }
+
+    private val notificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) startServerWatch() else showSnackbar(getString(R.string.watch_permission_denied))
+        }
+
+    private fun requestServerWatch() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            startServerWatch()
+        }
+    }
+
+    private fun startServerWatch() {
+        val url = arguments?.getString("url") ?: return
+        val type = arguments?.getString("type") ?: return
+        val label = dashboardItemList.firstOrNull { it.type.name == type }
+            ?.let { getString(it.title) } ?: type
+        ServerWatch.start(requireContext(), type, label, url)
+        showSnackbar(getString(R.string.watch_started, label))
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(requireActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun setupPdfPrintButton() {

@@ -15,15 +15,16 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 
 /**
- * Loads a collapsible adaptive banner into [container] and ties the AdView to
- * [owner]'s lifecycle (pass a Fragment's viewLifecycleOwner). A new banner is
- * loaded every time the view is recreated, e.g. when navigating back to a screen.
+ * Loads an adaptive banner into [container] and ties the AdView to [owner]'s
+ * lifecycle (pass a Fragment's viewLifecycleOwner). A new banner is loaded every
+ * time the view is recreated, e.g. when navigating back to a screen.
+ * [collapsible] requests a collapsible banner, which opens expanded over the content.
  */
 object BannerAds {
 
     private const val TAG = "ADS"
 
-    fun attach(container: FrameLayout, owner: LifecycleOwner) {
+    fun attach(container: FrameLayout, owner: LifecycleOwner, collapsible: Boolean) {
         val context = container.context
         val adView = AdView(context)
         container.removeAllViews()
@@ -46,12 +47,12 @@ object BannerAds {
                     Log.d(TAG, "Banner loaded")
                 }
             }
-            val extras = Bundle().apply { putString("collapsible", "bottom") }
-            adView.loadAd(
-                AdRequest.Builder()
-                    .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
-                    .build()
-            )
+            val request = AdRequest.Builder()
+            if (collapsible) {
+                val extras = Bundle().apply { putString("collapsible", "bottom") }
+                request.addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
+            }
+            adView.loadAd(request.build())
         }
 
         owner.lifecycle.addObserver(object : DefaultLifecycleObserver {

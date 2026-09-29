@@ -37,7 +37,10 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        BannerAds.attach(binding.bannerAd, viewLifecycleOwner)
+        // Collapsible banners open expanded over the exam cards, so only use one on the
+        // first dashboard visit per app session and a regular banner when returning
+        BannerAds.attach(binding.bannerAd, viewLifecycleOwner, collapsible = !collapsibleShown)
+        collapsibleShown = true
 
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -61,5 +64,9 @@ class DashboardFragment : Fragment() {
 
         val bundle = bundleOf("url" to ResultLinks.urlFor(it), "type" to it.name)
         findNavController().navigate(R.id.action_dashboardFragment_to_webViewFragment, bundle)
+    }
+
+    companion object {
+        private var collapsibleShown = false
     }
 }
