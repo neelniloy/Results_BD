@@ -84,12 +84,15 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Maintainer -->
+                <!-- Maintainer (tapping anywhere opens the portfolio) -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/maintainerCard"
                     style="@style/Widget.Material3.CardView.Filled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
                     app:cardCornerRadius="24dp">
 
@@ -145,11 +148,21 @@
 
                         </LinearLayout>
 
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/portfolio"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/about_portfolio"
+                            app:icon="@drawable/ic_web"
+                            app:iconGravity="textStart" />
+
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Social links -->
+                <!-- Support -->
                 <com.google.android.material.card.MaterialCardView
                     style="@style/Widget.Material3.CardView.Filled"
                     android:layout_width="match_parent"
@@ -167,7 +180,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/about_find_me"
+                            android:text="@string/about_support"
                             android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                             android:textColor="?attr/colorPrimary" />
 
@@ -175,64 +188,48 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:id="@+id/facebook"
-                                android:layout_width="0dp"
+                                android:layout_width="48dp"
                                 android:layout_height="48dp"
-                                android:layout_weight="1"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="Facebook"
-                                android:padding="4dp"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/facebook" />
-
-                            <ImageView
-                                android:id="@+id/telegram"
-                                android:layout_width="0dp"
-                                android:layout_height="48dp"
-                                android:layout_weight="1"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="Telegram"
-                                android:padding="4dp"
+                                android:importantForAccessibility="no"
                                 android:scaleType="fitCenter"
                                 android:src="@drawable/telegram" />
 
-                            <ImageView
-                                android:id="@+id/github"
+                            <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
                                 android:layout_weight="1"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="GitHub"
-                                android:padding="4dp"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/github" />
+                                android:orientation="vertical">
 
-                            <ImageView
-                                android:id="@+id/linkedin"
-                                android:layout_width="0dp"
-                                android:layout_height="48dp"
-                                android:layout_weight="1"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="LinkedIn"
-                                android:padding="4dp"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/linkedin" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/about_support_title"
+                                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                                    android:textColor="?attr/colorOnSurface" />
 
-                            <ImageView
-                                android:id="@+id/youtube"
-                                android:layout_width="0dp"
-                                android:layout_height="48dp"
-                                android:layout_weight="1"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="YouTube"
-                                android:padding="4dp"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/youtube" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/about_support_text"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/supportGroup"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/about_support_join" />
 
                     </LinearLayout>
 

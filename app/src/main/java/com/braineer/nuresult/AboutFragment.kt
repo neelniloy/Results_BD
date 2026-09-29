@@ -22,29 +22,14 @@ class AboutFragment : Fragment() {
         binding = FragmentAboutBinding.inflate(inflater, container, false)
         binding.versionText.text = getString(R.string.about_version, BuildConfig.VERSION_NAME)
 
-        binding.facebook.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/niloythings/"))
-            startActivity(intent)
+        val openPortfolio = View.OnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://niloythings.pages.dev/")))
         }
+        binding.maintainerCard.setOnClickListener(openPortfolio)
+        binding.portfolio.setOnClickListener(openPortfolio)
 
-        binding.telegram.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/niloythings"))
-            startActivity(intent)
-        }
-
-        binding.github.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/neelniloy"))
-            startActivity(intent)
-        }
-
-        binding.linkedin.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/niloysarker/"))
-            startActivity(intent)
-        }
-
-        binding.youtube.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/@niloythings"))
-            startActivity(intent)
+        binding.supportGroup.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/+JNQp4agxq2swNWQ1")))
         }
 
         binding.cardRating.setOnClickListener {
