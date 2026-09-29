@@ -8,17 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.braineer.nuresult.ads.BannerAds
 import com.braineer.nuresult.databinding.FragmentAboutBinding
-import com.google.ads.mediation.admob.AdMobAdapter
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
 
 class AboutFragment : Fragment() {
 
     private lateinit var binding: FragmentAboutBinding
-    private var adView: AdView? = null
-    private var initialLayoutComplete = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,61 +59,11 @@ class AboutFragment : Fragment() {
             }
         }
 
-        setupBannerAd()
-
         return binding.root
     }
 
-    private fun setupBannerAd() {
-        if (adView == null) {
-            adView = AdView(requireContext())
-            binding.bannerAd.removeAllViews()
-            binding.bannerAd.addView(adView)
-
-            binding.bannerAd.viewTreeObserver.addOnGlobalLayoutListener {
-                if (!initialLayoutComplete && isAdded) {
-                    initialLayoutComplete = true
-                    adView?.let { ad ->
-                        ad.adUnitId = getString(R.string.banner_ad_unit_id)
-                        ad.setAdSize(adSize)
-                        val extras = Bundle().apply {
-                            putString("collapsible", "bottom")
-                        }
-                        val adRequest = AdRequest.Builder()
-                            .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
-                            .build()
-                        ad.loadAd(adRequest)
-                    }
-                }
-            }
-        }
-    }
-
-    private val adSize: AdSize
-        get() {
-            val displayMetrics = resources.displayMetrics
-            val density = displayMetrics.density
-            var adWidthPixels = binding.bannerAd.width.toFloat()
-            if (adWidthPixels == 0f) {
-                adWidthPixels = displayMetrics.widthPixels.toFloat()
-            }
-            val adWidth = (adWidthPixels / density).toInt()
-            return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(requireContext(), adWidth)
-        }
-
-    override fun onPause() {
-        adView?.pause()
-        super.onPause()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        adView?.resume()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        adView?.destroy()
-        adView = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        BannerAds.attach(binding.bannerAd, viewLifecycleOwner)
     }
 }
