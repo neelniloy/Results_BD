@@ -16,7 +16,15 @@
         <action
             android:id="@+id/action_dashboardFragment_to_webViewFragment"
             app:destination="@id/webViewFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_eligibilityFragment"
+            app:destination="@id/eligibilityFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/eligibilityFragment"
+        android:name="com.braineer.nuresult.EligibilityFragment"
+        android:label="Admission eligibility"
+        tools:layout="@layout/fragment_eligibility" />
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.braineer.nuresult.AboutFragment"

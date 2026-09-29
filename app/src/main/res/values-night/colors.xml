@@ -2,4 +2,11 @@
 <resources>
     <color name="appbar_background">@color/md_dark_surfaceContainer</color>
     <color name="appbar_content">@color/md_dark_onSurface</color>
+
+    <color name="status_ok_bg">#FF1F4D26</color>
+    <color name="status_ok_fg">#FFB8F2BE</color>
+    <color name="status_check_bg">#FF574419</color>
+    <color name="status_check_fg">#FFFDDFA6</color>
+    <color name="status_no_bg">#FF93000A</color>
+    <color name="status_no_fg">#FFFFDAD6</color>
 </resources>

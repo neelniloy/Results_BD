@@ -2,6 +2,7 @@ package com.braineer.nuresult
 
 import android.app.Application
 import com.braineer.nuresult.ads.AdManager
+import com.braineer.nuresult.model.AdmissionRules
 import com.braineer.nuresult.model.ResultLinks
 
 class MyApplication : Application() {
@@ -12,6 +13,8 @@ class MyApplication : Application() {
         AdManager.initializeInterstitialAd(this, getString(R.string.interstitial_ad_unit_id))
         // Fetch result site URLs early so they are ready before the user taps a card
         ResultLinks.init(this)
+        // Pull the latest admission GPA rules for the eligibility checker
+        AdmissionRules.refresh(this)
 
     }
 }

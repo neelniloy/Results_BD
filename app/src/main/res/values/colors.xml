@@ -9,6 +9,14 @@
     <color name="appbar_background">@color/brand_red</color>
     <color name="appbar_content">@color/white</color>
 
+    <!-- Eligibility status pills (overridden in values-night) -->
+    <color name="status_ok_bg">#FFC8EFCB</color>
+    <color name="status_ok_fg">#FF0B3D12</color>
+    <color name="status_check_bg">#FFFDDFA6</color>
+    <color name="status_check_fg">#FF261900</color>
+    <color name="status_no_bg">#FFFFDAD6</color>
+    <color name="status_no_fg">#FF410002</color>
+
     <!-- Material 3 palette generated from brand red: light -->
     <color name="md_light_primary">#FFC0111F</color>
     <color name="md_light_onPrimary">#FFFFFFFF</color>

@@ -24,6 +24,29 @@
         <item>Dark</item>
     </string-array>
 
+    <!-- Admission eligibility -->
+    <string name="elig_card_title">Admission eligibility checker</string>
+    <string name="elig_card_subtitle">See which universities and medical colleges you can apply to</string>
+    <string name="elig_title">Where can I apply?</string>
+    <string name="elig_session">Based on %1$s admission requirements. New circulars may change them.</string>
+    <string name="elig_group">HSC group</string>
+    <string name="group_science">Science</string>
+    <string name="group_business">Business</string>
+    <string name="group_humanities">Humanities</string>
+    <string name="elig_ssc_gpa">SSC GPA</string>
+    <string name="elig_hsc_gpa">HSC GPA</string>
+    <string name="elig_gpa_hint">Enter GPA including the 4th subject, as shown on your marksheet.</string>
+    <string name="elig_gpa_error">Enter a GPA between 1.00 and 5.00</string>
+    <string name="elig_check">Check eligibility</string>
+    <string name="elig_status_eligible">Eligible</string>
+    <string name="elig_status_check">Check details</string>
+    <string name="elig_status_not">Not eligible</string>
+    <string name="elig_sum_eligible">%1$d eligible</string>
+    <string name="elig_sum_check">%1$d need checking</string>
+    <string name="elig_sum_not">%1$d not eligible</string>
+    <string name="elig_official_site">Official website</string>
+    <string name="elig_disclaimer">This checks minimum GPA requirements only. Seats, admission tests, quotas and pass-year rules also apply — always confirm with the official circular before applying.</string>
+
     <!-- Result page -->
     <string name="save_pdf">Save PDF</string>
 

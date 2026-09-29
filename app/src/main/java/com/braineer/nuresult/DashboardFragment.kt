@@ -31,6 +31,9 @@ class DashboardFragment : Fragment() {
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerView.adapter = DashboardAdapter { navigateToDashboardItemPage(it) }
+        binding.eligibilityCard.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_eligibilityFragment)
+        }
 
         return binding.root
     }

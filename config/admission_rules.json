@@ -1,0 +1,170 @@
+{
+  "session": "2025-26",
+  "updatedAt": "2026-09-29",
+  "programs": [
+    {
+      "name": "Medical (MBBS / BDS)",
+      "url": "https://dgme.teletalk.com.bd",
+      "tracks": [
+        {
+          "unit": "Government & private medical / dental colleges",
+          "groups": ["science"],
+          "minSsc": 4.0,
+          "minHsc": 4.0,
+          "minTotal": 8.5,
+          "subjectCheck": true,
+          "note": "Needs grade point 3.50 in HSC Biology. HSC passed in 2024 or 2025; SSC in 2022 or later."
+        }
+      ]
+    },
+    {
+      "name": "University of Dhaka",
+      "url": "https://admission.eis.du.ac.bd",
+      "tracks": [
+        {
+          "unit": "Science Unit",
+          "groups": ["science"],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 8.0,
+          "note": "GPA including 4th subject. SSC 2020–2023, HSC 2025."
+        },
+        {
+          "unit": "Arts, Law & Social Sciences Unit",
+          "groups": ["science", "business", "humanities"],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 7.5,
+          "note": "GPA including 4th subject. SSC 2020–2023, HSC 2025."
+        },
+        {
+          "unit": "Business Studies Unit",
+          "groups": ["science", "business", "humanities"],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 7.5,
+          "note": "GPA including 4th subject. SSC 2020–2023, HSC 2025."
+        },
+        {
+          "unit": "Fine Arts Unit",
+          "groups": ["science", "business", "humanities"],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 6.5,
+          "note": "GPA including 4th subject. SSC 2020–2023, HSC 2025."
+        }
+      ]
+    },
+    {
+      "name": "GST Cluster (general & science-technology universities)",
+      "url": "https://gstadmission.ac.bd",
+      "tracks": [
+        {
+          "unit": "A Unit (Science)",
+          "groups": ["science"],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 8.0,
+          "note": "GPA including 4th subject."
+        },
+        {
+          "unit": "B Unit (Humanities)",
+          "groups": ["humanities"],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 6.0,
+          "note": "GPA including 4th subject."
+        },
+        {
+          "unit": "C Unit (Business Studies)",
+          "groups": ["business"],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 6.5,
+          "note": "GPA including 4th subject."
+        }
+      ]
+    },
+    {
+      "name": "Agricultural Universities Cluster",
+      "url": "https://acas.edu.bd",
+      "tracks": [
+        {
+          "unit": "All agricultural universities",
+          "groups": ["science"],
+          "minSsc": 4.0,
+          "minHsc": 4.0,
+          "minTotal": 8.5,
+          "without4th": true,
+          "note": "HSC with Physics, Chemistry, Biology and Mathematics. SSC 2021–2023, HSC 2024 or 2025."
+        }
+      ]
+    },
+    {
+      "name": "BUET",
+      "url": "https://www.buet.ac.bd",
+      "tracks": [
+        {
+          "unit": "Engineering, Architecture & URP",
+          "groups": ["science"],
+          "minSsc": 4.0,
+          "minHsc": 5.0,
+          "subjectCheck": true,
+          "note": "HSC grade point 5.00 in each of Mathematics, Physics and Chemistry, and at least 270 of 300 marks in those subjects. Only the top 10,000 by those marks sit the test."
+        }
+      ]
+    },
+    {
+      "name": "CUET",
+      "url": "https://admissioncuet.ac.bd",
+      "tracks": [
+        {
+          "unit": "Engineering",
+          "groups": ["science"],
+          "subjectCheck": true,
+          "note": "HSC passed in 2025. Total grade point at least 14.00 in Mathematics, Physics and Chemistry, and at least 'B' in English."
+        }
+      ]
+    },
+    {
+      "name": "KUET",
+      "url": "https://admission.kuet.ac.bd",
+      "tracks": [
+        {
+          "unit": "Engineering",
+          "groups": ["science"],
+          "subjectCheck": true,
+          "note": "HSC passed in 2025. Grade point at least 4.00 each in Mathematics, Physics and Chemistry, and 18.00 total including English."
+        }
+      ]
+    },
+    {
+      "name": "National University (Honours)",
+      "url": "https://admission.nu.edu.bd",
+      "tracks": [
+        {
+          "unit": "Honours 1st year",
+          "groups": ["science"],
+          "minSsc": 2.25,
+          "minHsc": 2.0,
+          "minTotal": 4.75,
+          "note": "Requirements vary by subject and college. Admission test minimum 35 of 100."
+        },
+        {
+          "unit": "Honours 1st year",
+          "groups": ["humanities"],
+          "minSsc": 2.0,
+          "minHsc": 2.0,
+          "minTotal": 4.5,
+          "note": "Requirements vary by subject and college. Admission test minimum 35 of 100."
+        },
+        {
+          "unit": "Honours 1st year",
+          "groups": ["business"],
+          "subjectCheck": true,
+          "note": "Minimum GPA for Business Studies not confirmed yet — check the NU circular. Admission test minimum 35 of 100."
+        }
+      ]
+    }
+  ]
+}
