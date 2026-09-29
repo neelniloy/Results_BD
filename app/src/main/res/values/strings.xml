@@ -68,6 +68,8 @@
     <!-- About -->
     <string name="about_tagline">All Bangladesh exam results in one place, saved as PDF</string>
     <string name="about_version">Version %1$s</string>
+    <string name="about_disclaimer_title">Disclaimer</string>
+    <string name="about_disclaimer">Results BD is an independent app and is not affiliated with, endorsed by, or connected to any government entity, education board or university. Results are shown directly from their official websites, such as educationboardresults.gov.bd, results.nu.ac.bd and result.bou.ac.bd. Admission requirements are summarised from published circulars; always confirm with the official source.</string>
     <string name="about_maintainer">Maintainer</string>
     <string name="about_portfolio">View my portfolio</string>
     <string name="about_support">Support</string>
