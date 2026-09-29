@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/eligibilityFragment"
         android:name="com.braineer.nuresult.EligibilityFragment"
-        android:label="Admission eligibility"
+        android:label="Admission Eligibility"
         tools:layout="@layout/fragment_eligibility" />
     <fragment
         android:id="@+id/aboutFragment"
