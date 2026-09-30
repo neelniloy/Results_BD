@@ -12,11 +12,35 @@
         android:layout_height="match_parent"
         tools:context=".WebViewFragment">
 
+        <!-- Mirror switcher; shown only when the exam has more than one server -->
+        <HorizontalScrollView
+            android:id="@+id/serverBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorSurfaceContainer"
+            android:scrollbars="none"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/serverChips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                app:selectionRequired="true"
+                app:singleLine="true"
+                app:singleSelection="true" />
+
+        </HorizontalScrollView>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefreshlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/banner_ad">
+            android:layout_above="@+id/banner_ad"
+            android:layout_below="@id/serverBar">
 
             <WebView
                 android:id="@+id/webview"
@@ -29,7 +53,7 @@
             android:id="@+id/progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/serverBar"
             android:max="100"
             app:trackThickness="3dp" />
 

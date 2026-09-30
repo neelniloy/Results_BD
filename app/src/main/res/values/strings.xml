@@ -57,6 +57,11 @@
     <string name="error_retry">Try again</string>
     <string name="error_back">Go back</string>
 
+    <!-- Result mirrors -->
+    <string name="server_label">Server %1$d</string>
+    <string name="failover_trying">Server %1$d isn\'t responding — trying server %2$d…</string>
+    <string name="error_all_busy">All %1$d result servers are busy or not responding right now. Try again in a while, or tap Notify me.</string>
+
     <!-- Server watch -->
     <string name="watch_button">Notify me</string>
     <string name="watch_started">We\'ll notify you when the %1$s result server is back</string>

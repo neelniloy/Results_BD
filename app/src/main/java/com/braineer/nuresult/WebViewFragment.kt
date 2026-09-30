@@ -27,7 +27,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.braineer.nuresult.databinding.FragmentWebViewBinding
+import com.braineer.nuresult.model.ResultLinks
 import com.braineer.nuresult.watch.ServerWatch
+import com.google.android.material.chip.Chip
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -48,6 +50,17 @@ class WebViewFragment : Fragment() {
     private var loadFailed = false
     private val mainHandler = Handler(Looper.getMainLooper())
 
+    // Result site mirrors for this exam, most reliable first
+    private var mirrors: List<String> = emptyList()
+    private var mirrorIndex = 0
+    // True until the current mirror's first page loads. Automatic failover only happens
+    // then, so an error after the user submits their roll number never moves them silently.
+    private var landingLoad = true
+    private var failoverAttempts = 0
+    private val landingTimeout = Runnable {
+        if (landingLoad) handleLoadError(getString(R.string.error_network), offerWatch = true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,9 +73,7 @@ class WebViewFragment : Fragment() {
         setupPdfPrintButton()
         setupBackNavigation()
 
-        arguments?.getString("url")?.let {
-            binding.webview.loadUrl(it)
-        }
+        setupMirrors()
 
         return binding.root
     }
@@ -75,6 +86,10 @@ class WebViewFragment : Fragment() {
             // result pages (even offline) instead of fresh results or an error
             cacheMode = WebSettings.LOAD_DEFAULT
             domStorageEnabled = true
+            // Fit desktop-only mirrors (e.g. the boards' IP servers) to the screen width;
+            // pages with a mobile viewport tag are unaffected
+            useWideViewPort = true
+            loadWithOverviewMode = true
             setSupportZoom(true)
             builtInZoomControls = true
             displayZoomControls = false
@@ -110,13 +125,23 @@ class WebViewFragment : Fragment() {
                 loadFailed = false
             }
 
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                if (landingLoad && !loadFailed) {
+                    // This mirror works; stop automatic switching from here on
+                    landingLoad = false
+                    failoverAttempts = 0
+                    mainHandler.removeCallbacks(landingTimeout)
+                }
+            }
+
             override fun onReceivedSslError(
                 view: WebView,
                 handler: SslErrorHandler,
                 error: SslError
             ) {
                 handler.cancel() // Strict adherence to Google Play Security policy
-                showErrorDialog(getString(R.string.error_ssl))
+                handleLoadError(getString(R.string.error_ssl), offerWatch = false)
             }
 
             override fun onReceivedError(
@@ -125,8 +150,7 @@ class WebViewFragment : Fragment() {
                 description: String,
                 failingUrl: String
             ) {
-                binding.savePdfBtn.visibility = View.GONE
-                showErrorDialog(getString(R.string.error_network), offerWatch = true)
+                handleLoadError(getString(R.string.error_network), offerWatch = true)
             }
 
             override fun onReceivedHttpError(
@@ -137,8 +161,7 @@ class WebViewFragment : Fragment() {
                 super.onReceivedHttpError(view, request, errorResponse)
                 val statusCode = errorResponse?.statusCode ?: 200
                 if (request?.isForMainFrame == true && statusCode >= 400) {
-                    binding.savePdfBtn.visibility = View.GONE
-                    showErrorDialog(
+                    handleLoadError(
                         getString(R.string.error_http, statusCode),
                         // Overload/outage codes only; a 404 won't fix itself by waiting
                         offerWatch = statusCode >= 500 || statusCode == 429
@@ -172,8 +195,72 @@ class WebViewFragment : Fragment() {
         }
     }
 
+    private fun setupMirrors() {
+        val type = arguments?.getString("type")
+        val requested = arguments?.getString("url")
+        val known = DashboardItemType.entries.firstOrNull { it.name == type }
+            ?.let { ResultLinks.urlsFor(it) }.orEmpty()
+        // A deep link (e.g. from a server watch notification) may name a specific mirror
+        mirrors = if (requested != null && requested !in known) listOf(requested) + known else known
+        if (mirrors.isEmpty()) return
+
+        if (mirrors.size > 1) {
+            binding.serverBar.visibility = View.VISIBLE
+            mirrors.indices.forEach { i ->
+                val chip = Chip(requireContext()).apply {
+                    id = View.generateViewId()
+                    tag = i
+                    text = getString(R.string.server_label, i + 1)
+                    isCheckable = true
+                    setOnClickListener { loadMirror(i, userChoice = true) }
+                }
+                binding.serverChips.addView(chip)
+            }
+        }
+        loadMirror(mirrors.indexOf(requested).coerceAtLeast(0), userChoice = true)
+    }
+
+    private fun loadMirror(index: Int, userChoice: Boolean) {
+        val b = _binding ?: return
+        mirrorIndex = index
+        landingLoad = true
+        if (userChoice) failoverAttempts = 0
+        dialog?.dismiss()
+        b.serverChips.findViewWithTag<Chip>(index)?.let {
+            b.serverChips.check(it.id)
+            b.serverBar.post { b.serverBar.smoothScrollTo(it.left - it.width, 0) }
+        }
+        mainHandler.removeCallbacks(landingTimeout)
+        mainHandler.postDelayed(landingTimeout, LANDING_TIMEOUT_MS)
+        b.webview.loadUrl(mirrors[index])
+    }
+
+    /**
+     * While a mirror's first page is loading, quietly moves on to the next mirror; once
+     * every mirror has been tried (or after the page has loaded), shows the error dialog.
+     */
+    private fun handleLoadError(message: String, offerWatch: Boolean) {
+        loadFailed = true
+        _binding?.savePdfBtn?.visibility = View.GONE
+        if (landingLoad && failoverAttempts < mirrors.size - 1) {
+            failoverAttempts++
+            val next = (mirrorIndex + 1) % mirrors.size
+            showSnackbar(getString(R.string.failover_trying, mirrorIndex + 1, next + 1))
+            loadMirror(next, userChoice = false)
+            return
+        }
+        mainHandler.removeCallbacks(landingTimeout)
+        val allTried = landingLoad && mirrors.size > 1
+        if (allTried) _binding?.webview?.stopLoading()
+        showErrorDialog(
+            if (allTried) getString(R.string.error_all_busy, mirrors.size) else message,
+            offerWatch,
+            reloadLanding = landingLoad
+        )
+    }
+
     /** [offerWatch] adds "notify me when it's back" for server-side failures. */
-    private fun showErrorDialog(message: String, offerWatch: Boolean = false) {
+    private fun showErrorDialog(message: String, offerWatch: Boolean = false, reloadLanding: Boolean = false) {
         loadFailed = true
         _binding?.savePdfBtn?.visibility = View.GONE
         if (!isAdded || isDetached) return
@@ -182,7 +269,9 @@ class WebViewFragment : Fragment() {
             .setMessage(message)
             .setCancelable(true)
             .setPositiveButton(R.string.error_retry) { _, _ ->
-                binding.webview.reload()
+                // Before a page loaded, retry this mirror from the start (and fail over again);
+                // after, reload so a submitted form is re-sent
+                if (reloadLanding) loadMirror(mirrorIndex, userChoice = true) else binding.webview.reload()
             }
             .setNegativeButton(R.string.error_back) { _, _ ->
                 findNavController().popBackStack()
@@ -211,11 +300,11 @@ class WebViewFragment : Fragment() {
     }
 
     private fun startServerWatch() {
-        val url = arguments?.getString("url") ?: return
+        if (mirrors.isEmpty()) return
         val type = arguments?.getString("type") ?: return
         val label = dashboardItemList.firstOrNull { it.type.name == type }
             ?.let { getString(it.title) } ?: type
-        ServerWatch.start(requireContext(), type, label, url)
+        ServerWatch.start(requireContext(), type, label, mirrors)
         showSnackbar(getString(R.string.watch_started, label))
     }
 
@@ -318,5 +407,10 @@ class WebViewFragment : Fragment() {
             }
         }
         _binding = null
+    }
+
+    companion object {
+        // A mirror whose first page doesn't finish loading in this time counts as busy
+        private const val LANDING_TIMEOUT_MS = 30_000L
     }
 }

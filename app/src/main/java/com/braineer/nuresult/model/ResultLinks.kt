@@ -1,47 +1,43 @@
 package com.braineer.nuresult.model
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import com.braineer.nuresult.DashboardItemType
+import com.braineer.nuresult.R
 import org.json.JSONObject
+import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.Executors
 
 /**
- * Result website URLs, overridable by editing a static JSON file served from a CDN.
- * A static file has no per-read quota (unlike Firestore or Remote Config), so it
- * scales with any number of users. The last good copy is cached on device and the
- * bundled defaults are used until a fetch succeeds.
+ * Result website URLs per exam, as an ordered list of mirrors (most reliable first).
+ * On result day the main site is often overloaded, so the result page can fail over
+ * to, or let the user switch to, another mirror.
  *
- * Expected JSON (see config/result_links.json in the repo):
- * { "url_psc": "...", "url_ssc": "...", "url_nu": "...", "url_open": "..." }
+ * Editable without an app update: a copy is bundled in res/raw and a newer one is
+ * fetched from the config repo on jsDelivr (a static file, so no per-read quota).
+ * Whichever copy has the later "updatedAt" wins.
+ *
+ * Format: { "updatedAt": "yyyy-MM-dd", "exams": { "ssc": ["https://...", ...], ... } }
  */
 object ResultLinks {
 
     private const val TAG = "ResultLinks"
     private const val CONFIG_URL =
         "https://cdn.jsdelivr.net/gh/neelniloy/resultsbd-config@main/result_links.json"
-    private const val PREFS_NAME = "result_links"
+    private const val CACHE_FILE = "result_links.json"
     private const val TIMEOUT_MS = 10_000
 
-    const val KEY_PSC = "url_psc"
-    const val KEY_SSC = "url_ssc"
-    const val KEY_NU = "url_nu"
-    const val KEY_OPEN = "url_open"
+    private class LinkSet(val updatedAt: String, val exams: Map<String, List<String>>)
 
-    private val defaults = mapOf(
-        KEY_PSC to "https://www.educationboardresults.gov.bd/",
-        KEY_SSC to "https://www.educationboardresults.gov.bd/",
-        KEY_NU to "https://results.nu.ac.bd/",
-        KEY_OPEN to "https://result.bou.ac.bd/"
-    )
-
-    private lateinit var prefs: SharedPreferences
+    private lateinit var appContext: Context
+    private val bundled: LinkSet by lazy {
+        parse(appContext.resources.openRawResource(R.raw.result_links).bufferedReader().use { it.readText() })
+    }
 
     fun init(context: Context) {
-        prefs = context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        appContext = context.applicationContext
         Executors.newSingleThreadExecutor().execute { fetchRemote() }
     }
 
@@ -56,28 +52,43 @@ object ResultLinks {
                 Log.w(TAG, "Config fetch failed: HTTP ${connection.responseCode}")
                 return
             }
-            val json = JSONObject(connection.inputStream.bufferedReader().use { it.readText() })
-            val editor = prefs.edit()
-            for (key in defaults.keys) {
-                val url = json.optString(key)
-                if (url.startsWith("http")) editor.putString(key, url)
-            }
-            editor.apply()
+            val text = connection.inputStream.bufferedReader().use { it.readText() }
+            parse(text) // only cache files that parse
+            File(appContext.filesDir, CACHE_FILE).writeText(text)
         } catch (e: Exception) {
-            Log.w(TAG, "Config fetch failed, using cached/default URLs", e)
+            Log.w(TAG, "Config fetch failed, using cached/bundled links", e)
         } finally {
             connection?.disconnect()
         }
     }
 
-    fun urlFor(type: DashboardItemType): String {
-        val key = when (type) {
-            DashboardItemType.PSC -> KEY_PSC
-            DashboardItemType.SSC -> KEY_SSC
-            DashboardItemType.NU -> KEY_NU
-            DashboardItemType.OPEN -> KEY_OPEN
+    /** All mirrors for [type], most reliable first. Never empty. */
+    fun urlsFor(type: DashboardItemType): List<String> {
+        val key = type.name.lowercase()
+        return current().exams[key]?.takeIf { it.isNotEmpty() }
+            ?: bundled.exams[key].orEmpty()
+    }
+
+    fun urlFor(type: DashboardItemType): String = urlsFor(type).first()
+
+    private fun current(): LinkSet {
+        val cached = try {
+            val file = File(appContext.filesDir, CACHE_FILE)
+            if (file.exists()) parse(file.readText()) else null
+        } catch (e: Exception) {
+            Log.w(TAG, "Cached links invalid, using bundled links", e)
+            null
         }
-        val cached = if (::prefs.isInitialized) prefs.getString(key, null) else null
-        return cached ?: defaults.getValue(key)
+        return if (cached != null && cached.updatedAt > bundled.updatedAt) cached else bundled
+    }
+
+    private fun parse(text: String): LinkSet {
+        val root = JSONObject(text)
+        val exams = root.getJSONObject("exams")
+        val map = exams.keys().asSequence().associateWith { key ->
+            val array = exams.getJSONArray(key)
+            (0 until array.length()).map { array.getString(it) }.filter { it.startsWith("http") }
+        }
+        return LinkSet(root.optString("updatedAt"), map)
     }
 }

@@ -46,15 +46,15 @@ object ServerWatch {
     private const val MAX_WATCH_MS = 3 * 60 * 60 * 1000L // 3 hours
     private const val TIMEOUT_MS = 15_000
 
-    internal const val KEY_URL = "url"
+    internal const val KEY_URLS = "urls"
     internal const val KEY_TYPE = "type"
     internal const val KEY_LABEL = "label"
     internal const val KEY_STARTED_AT = "started_at"
 
-    /** Starts (or restarts) watching [url]; one watch per exam [type]. */
-    fun start(context: Context, type: String, label: String, url: String) {
+    /** Starts (or restarts) watching an exam's mirrors; notifies when any of them responds. */
+    fun start(context: Context, type: String, label: String, urls: List<String>) {
         val data = workDataOf(
-            KEY_URL to url,
+            KEY_URLS to urls.toTypedArray(),
             KEY_TYPE to type,
             KEY_LABEL to label,
             KEY_STARTED_AT to System.currentTimeMillis()
@@ -140,13 +140,15 @@ object ServerWatch {
 class ServerWatchWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        val url = inputData.getString(ServerWatch.KEY_URL) ?: return Result.failure()
+        val urls = inputData.getStringArray(ServerWatch.KEY_URLS) ?: return Result.failure()
         val type = inputData.getString(ServerWatch.KEY_TYPE) ?: return Result.failure()
         val label = inputData.getString(ServerWatch.KEY_LABEL).orEmpty()
         val startedAt = inputData.getLong(ServerWatch.KEY_STARTED_AT, 0L)
 
+        // Mirrors are checked in order and the first one that answers is opened
+        val upUrl = urls.firstOrNull { ServerWatch.isServerUp(it) }
         when {
-            ServerWatch.isServerUp(url) -> ServerWatch.notifyServerUp(applicationContext, type, label, url)
+            upUrl != null -> ServerWatch.notifyServerUp(applicationContext, type, label, upUrl)
             ServerWatch.isExpired(startedAt) -> Unit // give up quietly
             else -> ServerWatch.scheduleNext(applicationContext, type, inputData)
         }
