@@ -246,11 +246,26 @@
                     app:icon="@drawable/ic_star"
                     app:iconGravity="textStart" />
 
-                <!-- Google Play government-information policy: disclose no affiliation and the sources -->
+                <!-- Brand signature used across Niloy Things apps; opens the portfolio -->
+                <TextView
+                    android:id="@+id/brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="28dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:letterSpacing="0.08"
+                    android:padding="8dp"
+                    android:text="@string/about_brand"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                    android:textColor="?attr/colorPrimary" />
+
+                <!-- Google Play government-information policy: state non-affiliation in-app;
+                     the official source URLs are listed in the Play Store description -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:text="@string/about_disclaimer"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"

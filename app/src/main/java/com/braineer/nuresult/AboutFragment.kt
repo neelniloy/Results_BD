@@ -27,6 +27,7 @@ class AboutFragment : Fragment() {
         }
         binding.maintainerCard.setOnClickListener(openPortfolio)
         binding.portfolio.setOnClickListener(openPortfolio)
+        binding.brand.setOnClickListener(openPortfolio)
 
         binding.supportGroup.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/+JNQp4agxq2swNWQ1")))
