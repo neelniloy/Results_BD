@@ -45,6 +45,15 @@ class ResultLinksTest {
     }
 
     @Test
+    fun landingTimeout_defaultsTo15sAndIsClamped() {
+        assertEquals(15_000L, ResultLinks.landingTimeoutMs(null))
+        assertEquals(25_000L, ResultLinks.landingTimeoutMs(25))
+        assertEquals(5_000L, ResultLinks.landingTimeoutMs(0))
+        assertEquals(5_000L, ResultLinks.landingTimeoutMs(-3))
+        assertEquals(60_000L, ResultLinks.landingTimeoutMs(600))
+    }
+
+    @Test
     fun shippedConfig_hasNoDuplicateServers() {
         // Guards config/result_links.json and the bundled copy against accidental duplicates
         listOf("../config/result_links.json", "src/main/res/raw/result_links.json").forEach { path ->

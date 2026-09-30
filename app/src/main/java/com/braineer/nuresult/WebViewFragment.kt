@@ -57,6 +57,7 @@ class WebViewFragment : Fragment() {
     // then, so an error after the user submits their roll number never moves them silently.
     private var landingLoad = true
     private var failoverAttempts = 0
+    private var landingTimeoutMs = 0L
     private val landingTimeout = Runnable {
         if (landingLoad) handleLoadError(getString(R.string.error_network), offerWatch = true)
     }
@@ -207,6 +208,7 @@ class WebViewFragment : Fragment() {
             known
         }
         if (mirrors.isEmpty()) return
+        landingTimeoutMs = ResultLinks.landingTimeoutMs()
 
         if (mirrors.size > 1) {
             binding.serverBar.visibility = View.VISIBLE
@@ -236,7 +238,7 @@ class WebViewFragment : Fragment() {
             b.serverBar.post { b.serverBar.smoothScrollTo(it.left - it.width, 0) }
         }
         mainHandler.removeCallbacks(landingTimeout)
-        mainHandler.postDelayed(landingTimeout, LANDING_TIMEOUT_MS)
+        mainHandler.postDelayed(landingTimeout, landingTimeoutMs)
         b.webview.loadUrl(mirrors[index])
     }
 
@@ -414,8 +416,4 @@ class WebViewFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        // A mirror whose first page doesn't finish loading in this time counts as busy
-        private const val LANDING_TIMEOUT_MS = 30_000L
-    }
 }

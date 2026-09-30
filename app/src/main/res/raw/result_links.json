@@ -1,5 +1,6 @@
 {
   "updatedAt": "2026-09-30",
+  "timeoutSeconds": 15,
   "exams": {
     "ssc": [
       "https://www.educationboardresults.gov.bd/",

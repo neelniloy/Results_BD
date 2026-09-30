@@ -19,7 +19,8 @@ import java.util.concurrent.Executors
  * fetched from the config repo on jsDelivr (a static file, so no per-read quota).
  * Whichever copy has the later "updatedAt" wins.
  *
- * Format: { "updatedAt": "yyyy-MM-dd", "exams": { "ssc": ["https://...", ...], ... } }
+ * Format: { "updatedAt": "yyyy-MM-dd", "timeoutSeconds": 15, "exams": { "ssc": ["https://...", ...], ... } }
+ * "timeoutSeconds" is optional: how long a mirror's first page may take before failing over.
  */
 object ResultLinks {
 
@@ -29,7 +30,13 @@ object ResultLinks {
     private const val CACHE_FILE = "result_links.json"
     private const val TIMEOUT_MS = 10_000
 
-    private class LinkSet(val updatedAt: String, val exams: Map<String, List<String>>)
+    // Failover timeout for a mirror's first page. 15 s keeps the worst case with several
+    // hanging mirrors reasonable while still giving a slow but working server time to load.
+    private const val DEFAULT_LANDING_TIMEOUT_SEC = 15
+    private const val MIN_LANDING_TIMEOUT_SEC = 5
+    private const val MAX_LANDING_TIMEOUT_SEC = 60
+
+    private class LinkSet(val updatedAt: String, val timeoutSeconds: Int?, val exams: Map<String, List<String>>)
 
     private lateinit var appContext: Context
     private val bundled: LinkSet by lazy {
@@ -71,6 +78,14 @@ object ResultLinks {
 
     fun urlFor(type: DashboardItemType): String = urlsFor(type).first()
 
+    /** How long a mirror's first page may take to load before failing over to the next one. */
+    fun landingTimeoutMs(): Long = landingTimeoutMs(current().timeoutSeconds)
+
+    /** Clamps a configured value so a typo in the JSON can't disable or stall failover. */
+    internal fun landingTimeoutMs(configuredSeconds: Int?): Long =
+        (configuredSeconds ?: DEFAULT_LANDING_TIMEOUT_SEC)
+            .coerceIn(MIN_LANDING_TIMEOUT_SEC, MAX_LANDING_TIMEOUT_SEC) * 1000L
+
     private fun current(): LinkSet {
         val cached = try {
             val file = File(appContext.filesDir, CACHE_FILE)
@@ -89,7 +104,8 @@ object ResultLinks {
             val array = exams.getJSONArray(key)
             dedupe((0 until array.length()).map { array.getString(it).trim() })
         }
-        return LinkSet(root.optString("updatedAt"), map)
+        val timeout = if (root.has("timeoutSeconds")) root.optInt("timeoutSeconds") else null
+        return LinkSet(root.optString("updatedAt"), timeout, map)
     }
 
     /** Keeps valid http(s) URLs, dropping later entries that point to the same server. */
