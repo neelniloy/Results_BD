@@ -35,8 +35,9 @@ object ThemeSettings {
             .show()
     }
 
+    // Light until the user picks otherwise; "System default" stays available in the picker
     private fun savedMode(context: Context) =
-        prefs(context).getInt(KEY_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        prefs(context).getInt(KEY_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_NO)
 
     private fun prefs(context: Context) =
         context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
