@@ -87,8 +87,32 @@ object ResultLinks {
         val exams = root.getJSONObject("exams")
         val map = exams.keys().asSequence().associateWith { key ->
             val array = exams.getJSONArray(key)
-            (0 until array.length()).map { array.getString(it) }.filter { it.startsWith("http") }
+            dedupe((0 until array.length()).map { array.getString(it).trim() })
         }
         return LinkSet(root.optString("updatedAt"), map)
+    }
+
+    /** Keeps valid http(s) URLs, dropping later entries that point to the same server. */
+    internal fun dedupe(urls: List<String>): List<String> =
+        urls.filter { it.startsWith("http://") || it.startsWith("https://") }
+            .distinctBy(::serverKey)
+
+    /** True when [a] and [b] are the same server (see [serverKey]). */
+    fun sameServer(a: String, b: String) = serverKey(a) == serverKey(b)
+
+    /**
+     * Identity of a mirror, ignoring differences that still reach the same page:
+     * http vs https, a leading "www.", letter case in the host and a trailing slash.
+     * The path and query still matter.
+     */
+    internal fun serverKey(url: String): String = try {
+        val uri = java.net.URI(url.trim())
+        val host = uri.host.orEmpty().lowercase().removePrefix("www.")
+        val port = if (uri.port == -1 || uri.port == 80 || uri.port == 443) "" else ":${uri.port}"
+        val path = uri.rawPath.orEmpty().trimEnd('/')
+        val query = uri.rawQuery?.let { "?$it" }.orEmpty()
+        "$host$port$path$query"
+    } catch (e: Exception) {
+        url.trim().lowercase()
     }
 }

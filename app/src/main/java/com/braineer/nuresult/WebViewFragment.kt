@@ -201,7 +201,11 @@ class WebViewFragment : Fragment() {
         val known = DashboardItemType.entries.firstOrNull { it.name == type }
             ?.let { ResultLinks.urlsFor(it) }.orEmpty()
         // A deep link (e.g. from a server watch notification) may name a specific mirror
-        mirrors = if (requested != null && requested !in known) listOf(requested) + known else known
+        mirrors = if (requested != null && known.none { ResultLinks.sameServer(it, requested) }) {
+            listOf(requested) + known
+        } else {
+            known
+        }
         if (mirrors.isEmpty()) return
 
         if (mirrors.size > 1) {
@@ -217,7 +221,8 @@ class WebViewFragment : Fragment() {
                 binding.serverChips.addView(chip)
             }
         }
-        loadMirror(mirrors.indexOf(requested).coerceAtLeast(0), userChoice = true)
+        val start = requested?.let { r -> mirrors.indexOfFirst { ResultLinks.sameServer(it, r) } } ?: 0
+        loadMirror(start.coerceAtLeast(0), userChoice = true)
     }
 
     private fun loadMirror(index: Int, userChoice: Boolean) {
