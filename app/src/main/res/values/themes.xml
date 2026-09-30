@@ -30,10 +30,8 @@
         <item name="android:colorBackground">@color/md_light_surface</item>
     </style>
 
-    <style name="Theme.ResultsBD" parent="Base.Theme.ResultsBD">
-        <!-- Draw behind display cutouts; insets are handled in MainActivity -->
-        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
-    </style>
+    <!-- Edge-to-edge (including display cutouts) is set up by enableEdgeToEdge() in MainActivity -->
+    <style name="Theme.ResultsBD" parent="Base.Theme.ResultsBD" />
 
     <!-- Android 12+ style launch screen, backported by core-splashscreen -->
     <style name="Theme.ResultsBD.Starting" parent="Theme.SplashScreen">

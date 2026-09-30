@@ -34,8 +34,18 @@ android {
             resValue "string", "app_id", "ca-app-pub-1276360114688784~3736839849"
             resValue "string", "banner_ad_unit_id", "ca-app-pub-1276360114688784/9861881603"
             resValue "string", "interstitial_ad_unit_id", "ca-app-pub-1276360114688784/9308870346"
-            minifyEnabled false
+            // R8: shrink, optimize and obfuscate (Play's DEX optimization check)
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        // Release's R8 setup with test ads, for checking the shrunk app on a device
+        minifiedDebug {
+            initWith debug
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            matchingFallbacks = ['debug']
         }
     }
     compileOptions {
