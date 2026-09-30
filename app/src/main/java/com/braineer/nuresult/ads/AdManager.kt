@@ -18,7 +18,8 @@ object AdManager {
     private var adUnitId: String? = null
     private var appContext: Context? = null
     private var lastAdShownTime: Long = 0L
-    private const val MIN_AD_INTERVAL_MS = 60 * 1000L // 60 seconds interval
+    // At most one interstitial per 2 minutes, so users checking several results aren't interrupted on every tap
+    private const val MIN_AD_INTERVAL_MS = 2 * 60 * 1000L
 
     fun initializeInterstitialAd(context: Context, adUnitId: String) {
         this.appContext = context.applicationContext

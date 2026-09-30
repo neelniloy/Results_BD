@@ -32,6 +32,8 @@ class DashboardFragment : Fragment() {
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerView.adapter = DashboardAdapter { navigateToDashboardItemPage(it) }
         binding.eligibilityCard.setOnClickListener {
+            // Natural transition into a tool; shares the interstitial frequency cap
+            activity?.let { act -> AdManager.showInterstitialAd(act) }
             findNavController().navigate(R.id.action_dashboardFragment_to_eligibilityFragment)
         }
 
