@@ -3,7 +3,7 @@
     <!-- Ad IDs are defined per build type in app/build.gradle -->
 
     <!-- Dashboard -->
-    <string name="dashboard_title">Check your result</string>
+    <string name="dashboard_title">Check your %1$d result</string>
     <string name="dashboard_subtitle">Choose an exam to open the official result site</string>
     <string name="exam_ssc">JSC / SSC / HSC</string>
     <string name="exam_ssc_sub">Education Boards</string>

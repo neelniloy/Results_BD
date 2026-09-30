@@ -18,6 +18,7 @@ import com.braineer.nuresult.ads.AdManager
 import com.braineer.nuresult.ads.BannerAds
 import com.braineer.nuresult.databinding.FragmentDashboardBinding
 import com.braineer.nuresult.model.ResultLinks
+import java.util.Calendar
 
 class DashboardFragment : Fragment() {
 
@@ -28,6 +29,8 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        // Current year from the device clock, so the heading never goes out of date
+        binding.dashboardTitle.text = getString(R.string.dashboard_title, Calendar.getInstance().get(Calendar.YEAR))
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerView.adapter = DashboardAdapter { navigateToDashboardItemPage(it) }
