@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.gms.google-services'
     id 'com.google.devtools.ksp'
 }
 
@@ -65,12 +64,6 @@ kotlin {
 dependencies {
     // Use matching BOM version
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.1.0"))
-
-    // Firebase BOM
-    implementation platform('com.google.firebase:firebase-bom:33.1.2')
-
-    // Your other Firebase dependencies
-    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Google Mobile Ads (GMA) & UMP SDK
     implementation 'com.google.android.gms:play-services-ads:23.6.0'
