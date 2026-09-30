@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-10-01",
   "timeoutSeconds": 15,
   "exams": {
     "ssc": [
@@ -13,7 +13,9 @@
       "http://103.230.104.222/"
     ],
     "psc": [
-      "https://www.educationboardresults.gov.bd/"
+      "https://ipemis.dpe.gov.bd/scholarship-results",
+      "https://scholarship.primaryresult.bd/scholarship-results",
+      "http://180.211.137.51/ResultSingle.aspx"
     ],
     "nu": [
       "https://results.nu.ac.bd/"
