@@ -1,6 +1,6 @@
 {
   "session": "2025-26",
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-09-30",
   "programs": [
     {
       "name": "Medical (MBBS / BDS)",
@@ -8,7 +8,9 @@
       "tracks": [
         {
           "unit": "Government & private medical / dental colleges",
-          "groups": ["science"],
+          "groups": [
+            "science"
+          ],
           "minSsc": 4.0,
           "minHsc": 4.0,
           "minTotal": 8.5,
@@ -23,7 +25,9 @@
       "tracks": [
         {
           "unit": "Science Unit",
-          "groups": ["science"],
+          "groups": [
+            "science"
+          ],
           "minSsc": 3.5,
           "minHsc": 3.5,
           "minTotal": 8.0,
@@ -31,7 +35,11 @@
         },
         {
           "unit": "Arts, Law & Social Sciences Unit",
-          "groups": ["science", "business", "humanities"],
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
           "minSsc": 3.0,
           "minHsc": 3.0,
           "minTotal": 7.5,
@@ -39,7 +47,11 @@
         },
         {
           "unit": "Business Studies Unit",
-          "groups": ["science", "business", "humanities"],
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
           "minSsc": 3.0,
           "minHsc": 3.0,
           "minTotal": 7.5,
@@ -47,11 +59,355 @@
         },
         {
           "unit": "Fine Arts Unit",
-          "groups": ["science", "business", "humanities"],
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
           "minSsc": 3.0,
           "minHsc": 3.0,
           "minTotal": 6.5,
           "note": "GPA including 4th subject. SSC 2020–2023, HSC 2025."
+        }
+      ]
+    },
+    {
+      "name": "University of Rajshahi",
+      "url": "https://admission.ru.ac.bd",
+      "tracks": [
+        {
+          "unit": "A Unit (Arts, Law, Social Sciences & others)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 7.0,
+          "note": "GPA including 4th subject. Check the circular for group-specific rules."
+        },
+        {
+          "unit": "B Unit (Business Studies)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 7.0,
+          "note": "GPA including 4th subject. Check the circular for group-specific rules."
+        },
+        {
+          "unit": "C Unit (Science)",
+          "groups": [
+            "science"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 8.0,
+          "note": "GPA including 4th subject."
+        }
+      ]
+    },
+    {
+      "name": "University of Chittagong",
+      "url": "https://admission.cu.ac.bd",
+      "tracks": [
+        {
+          "unit": "A Unit (Science)",
+          "groups": [
+            "science"
+          ],
+          "minSsc": 4.0,
+          "minHsc": 3.0,
+          "minTotal": 8.0,
+          "note": "Values for HSC 2025. HSC 2024 candidates need SSC 4.00, HSC 3.50, total 8.50."
+        },
+        {
+          "unit": "B Unit (Arts & Humanities)",
+          "groups": [
+            "humanities"
+          ],
+          "minSsc": 3.0,
+          "minTotal": 6.5,
+          "note": "Values for HSC 2025. HSC 2024 candidates need total 7.00."
+        },
+        {
+          "unit": "B Unit (Arts & Humanities)",
+          "groups": [
+            "science",
+            "business"
+          ],
+          "minSsc": 3.5,
+          "minTotal": 7.0,
+          "note": "Values for HSC 2025. HSC 2024 candidates need SSC 3.50, HSC 3.50, total 7.50."
+        },
+        {
+          "unit": "C Unit (Business Administration)",
+          "groups": [
+            "business"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 7.5,
+          "note": ""
+        },
+        {
+          "unit": "D Unit (Social Sciences)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.0,
+          "minTotal": 7.5,
+          "note": "Values for HSC 2025. HSC 2024 candidates need SSC 3.50, HSC 3.50, total 8.00. Check the circular for group-specific rules."
+        },
+        {
+          "unit": "D1 Sub-unit",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 2.5,
+          "minHsc": 2.0,
+          "minTotal": 5.5,
+          "note": "Values for HSC 2025. HSC 2024 candidates need SSC 2.50, HSC 2.50, total 6.00. Check the circular for group-specific rules."
+        }
+      ]
+    },
+    {
+      "name": "Jahangirnagar University",
+      "url": "https://ju-admission.org",
+      "tracks": [
+        {
+          "unit": "A Unit (Mathematical & Physical Sciences, IIT)",
+          "groups": [
+            "science"
+          ],
+          "minSsc": 4.0,
+          "minHsc": 4.0,
+          "minTotal": 8.5,
+          "note": ""
+        },
+        {
+          "unit": "B Unit (Social Sciences)",
+          "groups": [
+            "science"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 8.5,
+          "note": ""
+        },
+        {
+          "unit": "B Unit (Social Sciences)",
+          "groups": [
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 7.5,
+          "note": ""
+        },
+        {
+          "unit": "C Unit (Arts & Humanities)",
+          "groups": [
+            "science"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 8.5,
+          "note": ""
+        },
+        {
+          "unit": "C Unit (Arts & Humanities)",
+          "groups": [
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 7.5,
+          "note": ""
+        },
+        {
+          "unit": "C1 Unit (Drama & Fine Arts)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 7.5,
+          "note": ""
+        },
+        {
+          "unit": "D Unit (Biological Sciences)",
+          "groups": [
+            "science"
+          ],
+          "minSsc": 4.0,
+          "minHsc": 4.0,
+          "minTotal": 9.0,
+          "note": ""
+        },
+        {
+          "unit": "E Unit (Business Studies)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 4.0,
+          "minHsc": 3.5,
+          "minTotal": 8.0,
+          "note": "Check the circular for group-specific rules."
+        }
+      ]
+    },
+    {
+      "name": "Jagannath University",
+      "url": "https://admission.jnu.ac.bd",
+      "tracks": [
+        {
+          "unit": "A Unit (Science)",
+          "groups": [
+            "science"
+          ],
+          "minSsc": 3.25,
+          "minHsc": 3.25,
+          "minTotal": 7.5,
+          "note": ""
+        },
+        {
+          "unit": "B Unit (Arts & Law)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 6.5,
+          "note": "Check the circular for group-specific rules."
+        },
+        {
+          "unit": "C Unit (Business Studies)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 6.5,
+          "note": "Check the circular for group-specific rules."
+        },
+        {
+          "unit": "D Unit (Social Sciences)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 6.5,
+          "note": "Check the circular for group-specific rules."
+        },
+        {
+          "unit": "E Unit (Fine Arts)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 6.5,
+          "note": "Check the circular for group-specific rules."
+        }
+      ]
+    },
+    {
+      "name": "Khulna University",
+      "url": "https://admission.ku.ac.bd",
+      "tracks": [
+        {
+          "unit": "A Unit (Science, Engineering & Technology)",
+          "groups": [
+            "science"
+          ],
+          "minTotal": 8.0,
+          "subjectCheck": true,
+          "note": "Subject-wise requirements may also apply."
+        },
+        {
+          "unit": "B Unit (Biological Sciences)",
+          "groups": [
+            "science"
+          ],
+          "minTotal": 8.0,
+          "subjectCheck": true,
+          "note": "Needs grade point 3.00 in HSC English, Physics, Chemistry, Mathematics and Biology."
+        },
+        {
+          "unit": "C Unit (Arts & Humanities)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minTotal": 7.0,
+          "note": "Check the circular for group-specific rules."
+        },
+        {
+          "unit": "D Unit (Business Administration)",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "subjectCheck": true,
+          "note": "Needs grade point 3.00 in HSC English. Check the circular for group-specific rules."
+        }
+      ]
+    },
+    {
+      "name": "Shahjalal University of Science & Technology (SUST)",
+      "url": "https://admission.sust.edu.bd",
+      "tracks": [
+        {
+          "unit": "A Unit",
+          "groups": [
+            "science"
+          ],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 6.5,
+          "subjectCheck": true,
+          "note": "Needs grade point 3.00 in HSC Mathematics. HSC 2024 or 2025; SSC 2022 or 2023."
+        },
+        {
+          "unit": "B Unit",
+          "groups": [
+            "science",
+            "business",
+            "humanities"
+          ],
+          "minSsc": 3.0,
+          "minHsc": 3.0,
+          "minTotal": 6.0,
+          "note": "HSC 2024 or 2025; SSC 2022 or 2023."
         }
       ]
     },
@@ -61,7 +417,9 @@
       "tracks": [
         {
           "unit": "A Unit (Science)",
-          "groups": ["science"],
+          "groups": [
+            "science"
+          ],
           "minSsc": 3.5,
           "minHsc": 3.5,
           "minTotal": 8.0,
@@ -69,7 +427,9 @@
         },
         {
           "unit": "B Unit (Humanities)",
-          "groups": ["humanities"],
+          "groups": [
+            "humanities"
+          ],
           "minSsc": 3.0,
           "minHsc": 3.0,
           "minTotal": 6.0,
@@ -77,7 +437,9 @@
         },
         {
           "unit": "C Unit (Business Studies)",
-          "groups": ["business"],
+          "groups": [
+            "business"
+          ],
           "minSsc": 3.0,
           "minHsc": 3.0,
           "minTotal": 6.5,
@@ -91,7 +453,9 @@
       "tracks": [
         {
           "unit": "All agricultural universities",
-          "groups": ["science"],
+          "groups": [
+            "science"
+          ],
           "minSsc": 4.0,
           "minHsc": 4.0,
           "minTotal": 8.5,
@@ -106,7 +470,9 @@
       "tracks": [
         {
           "unit": "Engineering, Architecture & URP",
-          "groups": ["science"],
+          "groups": [
+            "science"
+          ],
           "minSsc": 4.0,
           "minHsc": 5.0,
           "subjectCheck": true,
@@ -120,7 +486,9 @@
       "tracks": [
         {
           "unit": "Engineering",
-          "groups": ["science"],
+          "groups": [
+            "science"
+          ],
           "subjectCheck": true,
           "note": "HSC passed in 2025. Total grade point at least 14.00 in Mathematics, Physics and Chemistry, and at least 'B' in English."
         }
@@ -132,7 +500,9 @@
       "tracks": [
         {
           "unit": "Engineering",
-          "groups": ["science"],
+          "groups": [
+            "science"
+          ],
           "subjectCheck": true,
           "note": "HSC passed in 2025. Grade point at least 4.00 each in Mathematics, Physics and Chemistry, and 18.00 total including English."
         }
@@ -144,7 +514,9 @@
       "tracks": [
         {
           "unit": "Honours 1st year",
-          "groups": ["science"],
+          "groups": [
+            "science"
+          ],
           "minSsc": 2.25,
           "minHsc": 2.0,
           "minTotal": 4.75,
@@ -152,7 +524,9 @@
         },
         {
           "unit": "Honours 1st year",
-          "groups": ["humanities"],
+          "groups": [
+            "humanities"
+          ],
           "minSsc": 2.0,
           "minHsc": 2.0,
           "minTotal": 4.5,
@@ -160,7 +534,9 @@
         },
         {
           "unit": "Honours 1st year",
-          "groups": ["business"],
+          "groups": [
+            "business"
+          ],
           "subjectCheck": true,
           "note": "Minimum GPA for Business Studies not confirmed yet — check the NU circular. Admission test minimum 35 of 100."
         }

@@ -27,7 +27,8 @@ data class AdmissionTrack(
 
 data class AdmissionProgram(val name: String, val url: String, val tracks: List<AdmissionTrack>)
 
-data class AdmissionRuleSet(val session: String, val programs: List<AdmissionProgram>)
+/** [updatedAt] is an ISO date (yyyy-MM-dd); the newest copy wins. */
+data class AdmissionRuleSet(val session: String, val updatedAt: String, val programs: List<AdmissionProgram>)
 
 enum class EligibilityStatus { ELIGIBLE, CHECK, NOT_ELIGIBLE }
 
@@ -73,18 +74,22 @@ object AdmissionRules {
         }
     }
 
+    /**
+     * Returns the newer of the downloaded and bundled rules, so an app update with
+     * fresher bundled rules isn't overridden by an older file still on the CDN.
+     */
     fun load(context: Context): AdmissionRuleSet {
-        val cached = File(context.filesDir, CACHE_FILE)
-        if (cached.exists()) {
-            try {
-                return parse(cached.readText())
-            } catch (e: Exception) {
-                Log.w(TAG, "Cached rules invalid, using bundled rules", e)
-            }
+        val bundled = parse(
+            context.resources.openRawResource(R.raw.admission_rules).bufferedReader().use { it.readText() }
+        )
+        val cachedFile = File(context.filesDir, CACHE_FILE)
+        val cached = try {
+            if (cachedFile.exists()) parse(cachedFile.readText()) else null
+        } catch (e: Exception) {
+            Log.w(TAG, "Cached rules invalid, using bundled rules", e)
+            null
         }
-        val bundled = context.resources.openRawResource(R.raw.admission_rules)
-            .bufferedReader().use { it.readText() }
-        return parse(bundled)
+        return if (cached != null && cached.updatedAt > bundled.updatedAt) cached else bundled
     }
 
     fun evaluate(rules: AdmissionRuleSet, group: HscGroup, ssc: Double, hsc: Double): List<EligibilityResult> {
@@ -117,6 +122,7 @@ object AdmissionRules {
         val programs = root.getJSONArray("programs")
         return AdmissionRuleSet(
             session = root.optString("session"),
+            updatedAt = root.optString("updatedAt"),
             programs = (0 until programs.length()).map { i ->
                 val p = programs.getJSONObject(i)
                 val tracks = p.getJSONArray("tracks")
