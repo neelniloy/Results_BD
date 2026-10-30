@@ -1,6 +1,6 @@
 {
-  "session": "2025-26",
-  "updatedAt": "2026-09-30",
+  "session": "2026-27 (Dhaka University) and 2025-26 (others)",
+  "updatedAt": "2026-10-30",
   "programs": [
     {
       "name": "Medical (MBBS / BDS)",
@@ -15,7 +15,7 @@
           "minHsc": 4.0,
           "minTotal": 8.5,
           "subjectCheck": true,
-          "note": "Needs grade point 3.50 in HSC Biology. HSC passed in 2024 or 2025; SSC in 2022 or later."
+          "note": "Needs grade point 3.50 in HSC Biology. 2026-27 circular not out yet — passing-year rules may change."
         }
       ]
     },
@@ -31,31 +31,49 @@
           "minSsc": 3.5,
           "minHsc": 3.5,
           "minTotal": 8.0,
-          "note": "GPA including 4th subject. SSC 2020–2023, HSC 2025."
+          "note": "2026-27 rules: SSC 2021–2024, HSC 2026. GPA including 4th subject."
         },
         {
           "unit": "Arts, Law & Social Sciences Unit",
           "groups": [
-            "science",
+            "science"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 8.0,
+          "note": "2026-27 rules: SSC 2021–2024, HSC 2026. GPA including 4th subject."
+        },
+        {
+          "unit": "Arts, Law & Social Sciences Unit",
+          "groups": [
             "business",
             "humanities"
           ],
           "minSsc": 3.0,
           "minHsc": 3.0,
           "minTotal": 7.5,
-          "note": "GPA including 4th subject. SSC 2020–2023, HSC 2025."
+          "note": "2026-27 rules: SSC 2021–2024, HSC 2026. GPA including 4th subject."
         },
         {
           "unit": "Business Studies Unit",
           "groups": [
-            "science",
+            "science"
+          ],
+          "minSsc": 3.5,
+          "minHsc": 3.5,
+          "minTotal": 8.0,
+          "note": "2026-27 rules: SSC 2021–2024, HSC 2026. GPA including 4th subject."
+        },
+        {
+          "unit": "Business Studies Unit",
+          "groups": [
             "business",
             "humanities"
           ],
           "minSsc": 3.0,
           "minHsc": 3.0,
           "minTotal": 7.5,
-          "note": "GPA including 4th subject. SSC 2020–2023, HSC 2025."
+          "note": "2026-27 rules: SSC 2021–2024, HSC 2026. GPA including 4th subject."
         },
         {
           "unit": "Fine Arts Unit",
@@ -67,7 +85,7 @@
           "minSsc": 3.0,
           "minHsc": 3.0,
           "minTotal": 6.5,
-          "note": "GPA including 4th subject. SSC 2020–2023, HSC 2025."
+          "note": "2026-27 rules: SSC 2021–2024, HSC 2026. GPA including 4th subject."
         }
       ]
     },
@@ -123,7 +141,7 @@
           "minSsc": 4.0,
           "minHsc": 3.0,
           "minTotal": 8.0,
-          "note": "Values for HSC 2025. HSC 2024 candidates need SSC 4.00, HSC 3.50, total 8.50."
+          "note": "2025-26 values for that year's new HSC candidates; second-time candidates needed SSC 4.00, HSC 3.50, total 8.50. 2026-27 circular not out yet — passing-year rules may change."
         },
         {
           "unit": "B Unit (Arts & Humanities)",
@@ -132,7 +150,7 @@
           ],
           "minSsc": 3.0,
           "minTotal": 6.5,
-          "note": "Values for HSC 2025. HSC 2024 candidates need total 7.00."
+          "note": "2025-26 values for that year's new HSC candidates; second-time candidates needed total 7.00. 2026-27 circular not out yet — passing-year rules may change."
         },
         {
           "unit": "B Unit (Arts & Humanities)",
@@ -142,7 +160,7 @@
           ],
           "minSsc": 3.5,
           "minTotal": 7.0,
-          "note": "Values for HSC 2025. HSC 2024 candidates need SSC 3.50, HSC 3.50, total 7.50."
+          "note": "2025-26 values for that year's new HSC candidates; second-time candidates needed SSC 3.50, HSC 3.50, total 7.50. 2026-27 circular not out yet — passing-year rules may change."
         },
         {
           "unit": "C Unit (Business Administration)",
@@ -152,7 +170,7 @@
           "minSsc": 3.5,
           "minHsc": 3.5,
           "minTotal": 7.5,
-          "note": ""
+          "note": "2026-27 circular not out yet — passing-year rules may change."
         },
         {
           "unit": "D Unit (Social Sciences)",
@@ -164,7 +182,7 @@
           "minSsc": 3.5,
           "minHsc": 3.0,
           "minTotal": 7.5,
-          "note": "Values for HSC 2025. HSC 2024 candidates need SSC 3.50, HSC 3.50, total 8.00. Check the circular for group-specific rules."
+          "note": "2025-26 values for that year's new HSC candidates; second-time candidates needed SSC 3.50, HSC 3.50, total 8.00. Check the circular for group-specific rules. 2026-27 circular not out yet — passing-year rules may change."
         },
         {
           "unit": "D1 Sub-unit",
@@ -176,7 +194,7 @@
           "minSsc": 2.5,
           "minHsc": 2.0,
           "minTotal": 5.5,
-          "note": "Values for HSC 2025. HSC 2024 candidates need SSC 2.50, HSC 2.50, total 6.00. Check the circular for group-specific rules."
+          "note": "2025-26 values for that year's new HSC candidates; second-time candidates needed SSC 2.50, HSC 2.50, total 6.00. Check the circular for group-specific rules. 2026-27 circular not out yet — passing-year rules may change."
         }
       ]
     },
@@ -395,7 +413,7 @@
           "minHsc": 3.0,
           "minTotal": 6.5,
           "subjectCheck": true,
-          "note": "Needs grade point 3.00 in HSC Mathematics. HSC 2024 or 2025; SSC 2022 or 2023."
+          "note": "Needs grade point 3.00 in HSC Mathematics. 2026-27 circular not out yet — passing-year rules may change."
         },
         {
           "unit": "B Unit",
@@ -407,7 +425,7 @@
           "minSsc": 3.0,
           "minHsc": 3.0,
           "minTotal": 6.0,
-          "note": "HSC 2024 or 2025; SSC 2022 or 2023."
+          "note": "2026-27 circular not out yet — passing-year rules may change."
         }
       ]
     },
@@ -460,7 +478,7 @@
           "minHsc": 4.0,
           "minTotal": 8.5,
           "without4th": true,
-          "note": "HSC with Physics, Chemistry, Biology and Mathematics. SSC 2021–2023, HSC 2024 or 2025."
+          "note": "HSC with Physics, Chemistry, Biology and Mathematics. 2026-27 circular not out yet — passing-year rules may change."
         }
       ]
     },
@@ -490,7 +508,7 @@
             "science"
           ],
           "subjectCheck": true,
-          "note": "HSC passed in 2025. Total grade point at least 14.00 in Mathematics, Physics and Chemistry, and at least 'B' in English."
+          "note": "Total grade point at least 14.00 in Mathematics, Physics and Chemistry, and at least 'B' in English. 2026-27 circular not out yet — passing-year rules may change."
         }
       ]
     },
@@ -504,7 +522,7 @@
             "science"
           ],
           "subjectCheck": true,
-          "note": "HSC passed in 2025. Grade point at least 4.00 each in Mathematics, Physics and Chemistry, and 18.00 total including English."
+          "note": "Grade point at least 4.00 each in Mathematics, Physics and Chemistry, and 18.00 total including English. 2026-27 circular not out yet — passing-year rules may change."
         }
       ]
     },

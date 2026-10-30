@@ -39,6 +39,8 @@ class DashboardFragment : Fragment() {
             activity?.let { act -> AdManager.showInterstitialAd(act) }
             findNavController().navigate(R.id.action_dashboardFragment_to_eligibilityFragment)
         }
+        binding.smsCard.visibility = if (ResultLinks.smsBanner()) View.VISIBLE else View.GONE
+        binding.smsCard.setOnClickListener { SmsResult.showDialog(requireContext()) }
 
         return binding.root
     }

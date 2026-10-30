@@ -1,16 +1,11 @@
 {
-  "updatedAt": "2026-10-01",
-  "timeoutSeconds": 15,
+  "updatedAt": "2026-10-31",
+  "timeoutSeconds": 60,
+  "smsBanner": true,
   "exams": {
     "ssc": [
       "https://www.educationboardresults.gov.bd/",
-      "https://eboardresults.com/v2/home",
-      "http://www.educationboard.gov.bd/",
-      "http://oldweb.teletalk.com.bd/",
-      "http://103.230.104.203/",
-      "http://103.230.107.235/",
-      "http://103.230.107.233/",
-      "http://103.230.104.222/"
+      "https://eboardresults.com/v2/home"
     ],
     "psc": [
       "https://ipemis.dpe.gov.bd/scholarship-results",
