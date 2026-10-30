@@ -61,6 +61,22 @@
     <string name="server_label">Server %1$d</string>
     <string name="failover_trying">Server %1$d isn\'t responding — trying server %2$d…</string>
     <string name="error_all_busy">All %1$d result servers are busy or not responding right now. Try again in a while, or tap Notify me.</string>
+    <string name="server_slow">Server %1$d is slow due to heavy traffic — still loading, please wait…</string>
+
+    <!-- Result by SMS (Teletalk) -->
+    <string name="sms_chip">Get result by SMS</string>
+    <string name="sms_card_title">Website busy? Get your result by SMS</string>
+    <string name="sms_card_subtitle">HSC, SSC, Alim, Dakhil — via Teletalk 16222</string>
+    <string name="sms_title">Result by SMS</string>
+    <string name="sms_hint">Works even when the websites are down. Sends one SMS to 16222 from a Teletalk, GP, Robi, Banglalink or Airtel number (standard SMS charge applies).</string>
+    <string name="sms_exam">Exam</string>
+    <string name="sms_board">Board</string>
+    <string name="sms_roll">Roll</string>
+    <string name="sms_year">Year</string>
+    <string name="sms_send">Open SMS</string>
+    <string name="sms_roll_required">Enter your roll</string>
+    <string name="sms_year_invalid">Enter a 4-digit year</string>
+    <string name="sms_no_app">No SMS app found. Send \"%1$s\" to %2$s</string>
 
     <!-- Server watch -->
     <string name="watch_button">Notify me</string>

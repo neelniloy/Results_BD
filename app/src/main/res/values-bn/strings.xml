@@ -8,6 +8,27 @@
     <string name="error_retry">আবার চেষ্টা করুন</string>
     <string name="error_back">ফিরে যান</string>
 
+    <!-- Result mirrors -->
+    <string name="server_label">সার্ভার %1$d</string>
+    <string name="failover_trying">সার্ভার %1$d সাড়া দিচ্ছে না — সার্ভার %2$d চেষ্টা করা হচ্ছে…</string>
+    <string name="error_all_busy">সবগুলো (%1$d টি) রেজাল্ট সার্ভার এখন ব্যস্ত বা সাড়া দিচ্ছে না। কিছুক্ষণ পর আবার চেষ্টা করুন, অথবা \"চালু হলে জানান\" চাপুন।</string>
+    <string name="server_slow">অতিরিক্ত ট্রাফিকের কারণে সার্ভার %1$d ধীরগতির — লোড হচ্ছে, একটু অপেক্ষা করুন…</string>
+
+    <!-- Result by SMS (Teletalk) -->
+    <string name="sms_chip">SMS এ রেজাল্ট</string>
+    <string name="sms_card_title">সাইট ব্যস্ত? SMS এ রেজাল্ট পান</string>
+    <string name="sms_card_subtitle">HSC, SSC, আলিম, দাখিল — টেলিটক 16222 এর মাধ্যমে</string>
+    <string name="sms_title">SMS এ রেজাল্ট</string>
+    <string name="sms_hint">ওয়েবসাইট বন্ধ থাকলেও কাজ করে। টেলিটক, জিপি, রবি, বাংলালিংক বা এয়ারটেল নম্বর থেকে 16222 এ একটি SMS যাবে (সাধারণ SMS চার্জ প্রযোজ্য)।</string>
+    <string name="sms_exam">পরীক্ষা</string>
+    <string name="sms_board">বোর্ড</string>
+    <string name="sms_roll">রোল</string>
+    <string name="sms_year">সাল</string>
+    <string name="sms_send">SMS খুলুন</string>
+    <string name="sms_roll_required">রোল নম্বর দিন</string>
+    <string name="sms_year_invalid">৪ সংখ্যার সাল দিন</string>
+    <string name="sms_no_app">কোনো SMS অ্যাপ পাওয়া যায়নি। \"%1$s\" লিখে %2$s এ পাঠান</string>
+
     <!-- Server watch -->
     <string name="watch_button">চালু হলে জানান</string>
     <string name="watch_started">%1$s সার্ভার চালু হলে আমরা আপনাকে নোটিফিকেশন দেব</string>

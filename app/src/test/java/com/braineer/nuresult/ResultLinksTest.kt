@@ -65,4 +65,14 @@ class ResultLinksTest {
             }
         }
     }
+
+    @Test
+    fun shippedConfig_smsBannerIsBoolean() {
+        listOf("../config/result_links.json", "src/main/res/raw/result_links.json").forEach { path ->
+            val root = org.json.JSONObject(File(path).readText())
+            if (root.has("smsBanner")) {
+                assertTrue("smsBanner must be true/false in $path", root.get("smsBanner") is Boolean)
+            }
+        }
+    }
 }

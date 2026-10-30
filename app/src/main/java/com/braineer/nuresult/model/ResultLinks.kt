@@ -20,7 +20,9 @@ import java.util.concurrent.Executors
  * Whichever copy has the later "updatedAt" wins.
  *
  * Format: { "updatedAt": "yyyy-MM-dd", "timeoutSeconds": 15, "exams": { "ssc": ["https://...", ...], ... } }
- * "timeoutSeconds" is optional: how long a mirror's first page may take before failing over.
+ * "smsBanner" is optional (default false): shows the "result by SMS" card on the dashboard.
+ * "timeoutSeconds" is optional: how long a mirror's first page may take before the user is
+ * offered the next server (a slow mirror keeps loading; only errors fail over automatically).
  */
 object ResultLinks {
 
@@ -30,13 +32,18 @@ object ResultLinks {
     private const val CACHE_FILE = "result_links.json"
     private const val TIMEOUT_MS = 10_000
 
-    // Failover timeout for a mirror's first page. 15 s keeps the worst case with several
-    // hanging mirrors reasonable while still giving a slow but working server time to load.
+    // How long a mirror's first page may take before the "try the next server" hint shows.
+    // The mirror keeps loading after it, so this no longer cuts off slow servers.
     private const val DEFAULT_LANDING_TIMEOUT_SEC = 15
     private const val MIN_LANDING_TIMEOUT_SEC = 5
     private const val MAX_LANDING_TIMEOUT_SEC = 60
 
-    private class LinkSet(val updatedAt: String, val timeoutSeconds: Int?, val exams: Map<String, List<String>>)
+    private class LinkSet(
+        val updatedAt: String,
+        val timeoutSeconds: Int?,
+        val smsBanner: Boolean,
+        val exams: Map<String, List<String>>
+    )
 
     private lateinit var appContext: Context
     private val bundled: LinkSet by lazy {
@@ -81,6 +88,9 @@ object ResultLinks {
     /** How long a mirror's first page may take to load before failing over to the next one. */
     fun landingTimeoutMs(): Long = landingTimeoutMs(current().timeoutSeconds)
 
+    /** Whether to show the "result by SMS" card on the dashboard (switched on around result days). */
+    fun smsBanner(): Boolean = current().smsBanner
+
     /** Clamps a configured value so a typo in the JSON can't disable or stall failover. */
     internal fun landingTimeoutMs(configuredSeconds: Int?): Long =
         (configuredSeconds ?: DEFAULT_LANDING_TIMEOUT_SEC)
@@ -105,7 +115,7 @@ object ResultLinks {
             dedupe((0 until array.length()).map { array.getString(it).trim() })
         }
         val timeout = if (root.has("timeoutSeconds")) root.optInt("timeoutSeconds") else null
-        return LinkSet(root.optString("updatedAt"), timeout, map)
+        return LinkSet(root.optString("updatedAt"), timeout, root.optBoolean("smsBanner", false), map)
     }
 
     /** Keeps valid http(s) URLs, dropping later entries that point to the same server. */

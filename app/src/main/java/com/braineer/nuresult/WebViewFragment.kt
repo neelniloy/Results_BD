@@ -53,14 +53,17 @@ class WebViewFragment : Fragment() {
     // Result site mirrors for this exam, most reliable first
     private var mirrors: List<String> = emptyList()
     private var mirrorIndex = 0
-    // True until the current mirror's first page loads. Automatic failover only happens
+    // True until the current mirror's first page shows. Automatic failover only happens
     // then, so an error after the user submits their roll number never moves them silently.
     private var landingLoad = true
     private var failoverAttempts = 0
     private var landingTimeoutMs = 0L
+    // An overloaded server often answers after 20-60 s, so a slow mirror is never cancelled
+    // (that threw away replies seconds away); the user is only offered the next server
     private val landingTimeout = Runnable {
-        if (landingLoad) handleLoadError(getString(R.string.error_network), offerWatch = true)
+        if (landingLoad) showSlowServerHint()
     }
+    private var slowSnackbar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -126,14 +129,16 @@ class WebViewFragment : Fragment() {
                 loadFailed = false
             }
 
+            // The page is on screen and usable here, often long before onPageFinished,
+            // which waits for every image and script on a busy server (API 23+)
+            override fun onPageCommitVisible(view: WebView?, url: String?) {
+                super.onPageCommitVisible(view, url)
+                onLanded()
+            }
+
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                if (landingLoad && !loadFailed) {
-                    // This mirror works; stop automatic switching from here on
-                    landingLoad = false
-                    failoverAttempts = 0
-                    mainHandler.removeCallbacks(landingTimeout)
-                }
+                onLanded()
             }
 
             override fun onReceivedSslError(
@@ -210,8 +215,12 @@ class WebViewFragment : Fragment() {
         if (mirrors.isEmpty()) return
         landingTimeoutMs = ResultLinks.landingTimeoutMs()
 
-        if (mirrors.size > 1) {
+        // SSC and HSC share the board result sites, and Teletalk SMS works for both
+        val smsFallback = type == DashboardItemType.SSC.name
+        if (mirrors.size > 1 || smsFallback) {
             binding.serverBar.visibility = View.VISIBLE
+        }
+        if (mirrors.size > 1) {
             mirrors.indices.forEach { i ->
                 val chip = Chip(requireContext()).apply {
                     id = View.generateViewId()
@@ -223,6 +232,15 @@ class WebViewFragment : Fragment() {
                 binding.serverChips.addView(chip)
             }
         }
+        if (smsFallback) {
+            val chip = Chip(requireContext()).apply {
+                id = View.generateViewId()
+                text = getString(R.string.sms_chip)
+                isCheckable = false
+                setOnClickListener { SmsResult.showDialog(requireContext()) }
+            }
+            binding.serverChips.addView(chip)
+        }
         val start = requested?.let { r -> mirrors.indexOfFirst { ResultLinks.sameServer(it, r) } } ?: 0
         loadMirror(start.coerceAtLeast(0), userChoice = true)
     }
@@ -233,6 +251,7 @@ class WebViewFragment : Fragment() {
         landingLoad = true
         if (userChoice) failoverAttempts = 0
         dialog?.dismiss()
+        dismissSlowHint()
         b.serverChips.findViewWithTag<Chip>(index)?.let {
             b.serverChips.check(it.id)
             b.serverBar.post { b.serverBar.smoothScrollTo(it.left - it.width, 0) }
@@ -242,12 +261,39 @@ class WebViewFragment : Fragment() {
         b.webview.loadUrl(mirrors[index])
     }
 
+    private fun onLanded() {
+        if (landingLoad && !loadFailed) {
+            // This mirror works; stop automatic switching from here on
+            landingLoad = false
+            failoverAttempts = 0
+            mainHandler.removeCallbacks(landingTimeout)
+            dismissSlowHint()
+        }
+    }
+
+    /** Keeps the slow mirror loading and offers the next server instead of cancelling it. */
+    private fun showSlowServerHint() {
+        val root = activity?.findViewById<View>(android.R.id.content) ?: return
+        val snackbar = Snackbar.make(root, getString(R.string.server_slow, mirrorIndex + 1), Snackbar.LENGTH_INDEFINITE)
+        if (mirrors.size > 1) {
+            val next = (mirrorIndex + 1) % mirrors.size
+            snackbar.setAction(getString(R.string.server_label, next + 1)) { loadMirror(next, userChoice = true) }
+        }
+        slowSnackbar = snackbar.also { it.show() }
+    }
+
+    private fun dismissSlowHint() {
+        slowSnackbar?.dismiss()
+        slowSnackbar = null
+    }
+
     /**
      * While a mirror's first page is loading, quietly moves on to the next mirror; once
      * every mirror has been tried (or after the page has loaded), shows the error dialog.
      */
     private fun handleLoadError(message: String, offerWatch: Boolean) {
         loadFailed = true
+        dismissSlowHint()
         _binding?.savePdfBtn?.visibility = View.GONE
         if (landingLoad && failoverAttempts < mirrors.size - 1) {
             failoverAttempts++
@@ -402,6 +448,7 @@ class WebViewFragment : Fragment() {
         super.onDestroyView()
         dialog?.dismiss()
         dialog = null
+        dismissSlowHint()
         mainHandler.removeCallbacksAndMessages(null)
 
         _binding?.let {
